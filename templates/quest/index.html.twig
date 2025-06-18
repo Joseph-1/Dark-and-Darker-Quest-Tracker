@@ -1,0 +1,43 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quest index{% endblock %}
+
+{% block body %}
+    <h1>Quest index</h1>
+
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Name</th>
+                <th>Map</th>
+                <th>Objective</th>
+                <th>Status</th>
+                <th>Slug</th>
+                <th>actions</th>
+            </tr>
+        </thead>
+        <tbody>
+        {% for quest in quests %}
+            <tr>
+                <td>{{ quest.id }}</td>
+                <td>{{ quest.name }}</td>
+                <td>{{ quest.map }}</td>
+                <td>{{ quest.objective }}</td>
+                <td>{{ quest.status }}</td>
+                <td>{{ quest.slug }}</td>
+                <td>
+                    <a href="{{ path('app_quest_show', {'id': quest.id}) }}">show</a>
+                    <a href="{{ path('app_quest_edit', {'id': quest.id}) }}">edit</a>
+                </td>
+            </tr>
+        {% else %}
+            <tr>
+                <td colspan="7">no records found</td>
+            </tr>
+        {% endfor %}
+        </tbody>
+    </table>
+
+    <a href="{{ path('app_quest_new') }}">Create new</a>
+{% endblock %}
