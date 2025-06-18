@@ -19,7 +19,7 @@ class Merchant
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
 
-    #[ORM\Column(length: 100)]
+    #[ORM\Column(length: 50)]
     private ?string $slug = null;
 
     public function getId(): ?int
