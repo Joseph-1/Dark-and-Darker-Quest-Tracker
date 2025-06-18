@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\MerchantRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: MerchantRepository::class)]
@@ -21,6 +23,17 @@ class Merchant
 
     #[ORM\Column(length: 50)]
     private ?string $slug = null;
+
+    /**
+     * @var Collection<int, Quest>
+     */
+    #[ORM\OneToMany(targetEntity: Quest::class, mappedBy: 'merchant')]
+    private Collection $quests;
+
+    public function __construct()
+    {
+        $this->quests = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,6 +72,36 @@ class Merchant
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quest>
+     */
+    public function getQuests(): Collection
+    {
+        return $this->quests;
+    }
+
+    public function addQuest(Quest $quest): static
+    {
+        if (!$this->quests->contains($quest)) {
+            $this->quests->add($quest);
+            $quest->setMerchant($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuest(Quest $quest): static
+    {
+        if ($this->quests->removeElement($quest)) {
+            // set the owning side to null (unless already changed)
+            if ($quest->getMerchant() === $this) {
+                $quest->setMerchant(null);
+            }
+        }
 
         return $this;
     }
