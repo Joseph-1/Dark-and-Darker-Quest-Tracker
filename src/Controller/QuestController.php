@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/quest')]
+#[Route('/quest', name: 'quest_')]
 final class QuestController extends AbstractController
 {
-    #[Route(name: 'app_quest_index', methods: ['GET'])]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(QuestRepository $questRepository): Response
     {
         return $this->render('quest/index.html.twig', [
@@ -22,7 +22,7 @@ final class QuestController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_quest_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $quest = new Quest();
@@ -33,7 +33,7 @@ final class QuestController extends AbstractController
             $entityManager->persist($quest);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_quest_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('quest_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('quest/new.html.twig', [
@@ -42,7 +42,7 @@ final class QuestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_quest_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Quest $quest): Response
     {
         return $this->render('quest/show.html.twig', [
@@ -50,7 +50,7 @@ final class QuestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_quest_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Quest $quest, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(QuestForm::class, $quest);
@@ -59,7 +59,7 @@ final class QuestController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_quest_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('quest_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('quest/edit.html.twig', [
@@ -68,7 +68,7 @@ final class QuestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_quest_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Quest $quest, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$quest->getId(), $request->getPayload()->getString('_token'))) {
@@ -76,6 +76,6 @@ final class QuestController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_quest_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('quest_index', [], Response::HTTP_SEE_OTHER);
     }
 }
