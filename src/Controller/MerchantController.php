@@ -32,7 +32,7 @@ final class MerchantController extends AbstractController
 
         if ($form->isSubmitted() && $form->isValid()) {
 
-            // Allow to slugify string QuestName when a quest is added
+            // Allow to slugify string MerchantName when a merchant is added
             $slug = $slugger->slug($merchant->getName());
             $merchant->setSlug($slug);
 
@@ -48,17 +48,24 @@ final class MerchantController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Merchant $merchant): Response
+    #[Route('/show/{slug}', name: 'show', methods: ['GET'])]
+    public function show(string $slug, MerchantRepository $merchantRepository): Response
     {
+        // Allow to find the Merchant by slug instead of id
+        $merchant = $merchantRepository->findOneBy(['slug' => $slug]);
+
         return $this->render('merchant/show.html.twig', [
             'merchant' => $merchant,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Merchant $merchant, EntityManagerInterface $entityManager): Response
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(string $slug, MerchantRepository $merchantRepository, Request $request,
+                         EntityManagerInterface $entityManager): Response
     {
+        // Allow to find the Merchant by slug instead of id
+        $merchant = $merchantRepository->findOneBy(['slug' => $slug]);
+
         $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
