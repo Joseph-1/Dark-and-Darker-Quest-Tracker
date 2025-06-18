@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Quest;
-use App\Form\QuestForm;
+use App\Form\QuestType;
 use App\Repository\QuestRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -27,7 +27,7 @@ final class QuestController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $quest = new Quest();
-        $form = $this->createForm(QuestForm::class, $quest);
+        $form = $this->createForm(QuestType::class, $quest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
