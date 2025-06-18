@@ -1,0 +1,42 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Quest{% endblock %}
+
+{% block body %}
+    <h1>Quest</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ quest.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ quest.name }}</td>
+            </tr>
+            <tr>
+                <th>Map</th>
+                <td>{{ quest.map }}</td>
+            </tr>
+            <tr>
+                <th>Objective</th>
+                <td>{{ quest.objective }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ quest.status }}</td>
+            </tr>
+            <tr>
+                <th>Slug</th>
+                <td>{{ quest.slug }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('quest_index') }}">back to list</a>
+
+    <a href="{{ path('quest_edit', {'id': quest.id}) }}">edit</a>
+
+    {{ include('quest/_delete_form.html.twig') }}
+{% endblock %}
