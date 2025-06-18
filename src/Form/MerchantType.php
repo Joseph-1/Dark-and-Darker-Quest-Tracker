@@ -14,7 +14,6 @@ class MerchantType extends AbstractType
         $builder
             ->add('name')
             ->add('picture')
-            ->add('slug')
         ;
     }
 
