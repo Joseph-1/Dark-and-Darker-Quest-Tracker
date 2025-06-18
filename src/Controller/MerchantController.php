@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Merchant;
-use App\Form\MerchantForm;
+use App\Form\MerchantType;
 use App\Repository\MerchantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/merchant', name: 'merchant_')]
 final class MerchantController extends AbstractController
@@ -23,13 +24,18 @@ final class MerchantController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $merchant = new Merchant();
-        $form = $this->createForm(MerchantForm::class, $merchant);
+        $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Allow to slugify string MerchantName when a merchant is added
+            $slug = $slugger->slug($merchant->getName());
+            $merchant->setSlug($slug);
+
             $entityManager->persist($merchant);
             $entityManager->flush();
 
@@ -42,18 +48,25 @@ final class MerchantController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Merchant $merchant): Response
+    #[Route('/show/{slug}', name: 'show', methods: ['GET'])]
+    public function show(string $slug, MerchantRepository $merchantRepository): Response
     {
+        // Allow to find the Merchant by slug instead of id
+        $merchant = $merchantRepository->findOneBy(['slug' => $slug]);
+
         return $this->render('merchant/show.html.twig', [
             'merchant' => $merchant,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Merchant $merchant, EntityManagerInterface $entityManager): Response
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(string $slug, MerchantRepository $merchantRepository, Request $request,
+                         EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(MerchantForm::class, $merchant);
+        // Allow to find the Merchant by slug instead of id
+        $merchant = $merchantRepository->findOneBy(['slug' => $slug]);
+
+        $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

@@ -30,7 +30,7 @@ class Quest
     private ?string $slug = null;
 
     #[ORM\ManyToOne(inversedBy: 'quests')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Merchant $merchant = null;
 
     public function getId(): ?int
