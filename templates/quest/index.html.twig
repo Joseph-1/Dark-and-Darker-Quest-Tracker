@@ -27,8 +27,8 @@
                 <td>{{ quest.status }}</td>
                 <td>{{ quest.slug }}</td>
                 <td>
-                    <a href="{{ path('quest_show', {'id': quest.id}) }}">show</a>
-                    <a href="{{ path('quest_edit', {'id': quest.id}) }}">edit</a>
+                    <a href="{{ path('quest_show', {slug: quest.slug}) }}">show</a>
+                    <a href="{{ path('quest_edit', {slug: quest.slug}) }}">edit</a>
                 </td>
             </tr>
         {% else %}

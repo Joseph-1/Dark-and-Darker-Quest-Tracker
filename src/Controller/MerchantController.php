@@ -59,7 +59,7 @@ final class MerchantController extends AbstractController
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Merchant $merchant, EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(MerchantForm::class, $merchant);
+        $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

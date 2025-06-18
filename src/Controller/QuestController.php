@@ -48,18 +48,25 @@ final class QuestController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Quest $quest): Response
+    #[Route('/show/{slug}', name: 'show', methods: ['GET'])]
+    public function show(string $slug, QuestRepository $questRepository): Response
     {
+        // Allow to find the Quest by slug instead of id
+        $quest = $questRepository->findOneBy(['slug' => $slug]);
+
         return $this->render('quest/show.html.twig', [
             'quest' => $quest,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Quest $quest, EntityManagerInterface $entityManager): Response
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(string $slug, QuestRepository $questRepository, Request $request,
+                         EntityManagerInterface $entityManager): Response
     {
-        $form = $this->createForm(QuestForm::class, $quest);
+        // Allow to find the Quest by slug instead of id
+        $quest = $questRepository->findOneBy(['slug' => $slug]);
+
+        $form = $this->createForm(QuestType::class, $quest);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
