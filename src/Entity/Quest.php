@@ -29,6 +29,10 @@ class Quest
     #[ORM\Column(length: 50)]
     private ?string $slug = null;
 
+    #[ORM\ManyToOne(inversedBy: 'quests')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?Merchant $merchant = null;
+
     public function getId(): ?int
     {
         return $this->id;
@@ -90,6 +94,18 @@ class Quest
     public function setSlug(string $slug): static
     {
         $this->slug = $slug;
+
+        return $this;
+    }
+
+    public function getMerchant(): ?Merchant
+    {
+        return $this->merchant;
+    }
+
+    public function setMerchant(?Merchant $merchant): static
+    {
+        $this->merchant = $merchant;
 
         return $this;
     }
