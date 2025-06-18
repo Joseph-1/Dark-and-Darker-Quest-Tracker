@@ -10,6 +10,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/merchant', name: 'merchant_')]
 final class MerchantController extends AbstractController
@@ -23,13 +24,18 @@ final class MerchantController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $merchant = new Merchant();
         $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Allow to slugify string QuestName when a quest is added
+            $slug = $slugger->slug($merchant->getName());
+            $merchant->setSlug($slug);
+
             $entityManager->persist($merchant);
             $entityManager->flush();
 
