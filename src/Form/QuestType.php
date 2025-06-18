@@ -20,7 +20,7 @@ class QuestType extends AbstractType
             ->add('status')
             ->add('merchant', EntityType::class, [
                 'class' => Merchant::class,
-                'choice_label' => 'id',
+                'choice_label' => 'name',
             ])
         ;
     }
