@@ -3,7 +3,7 @@
 namespace App\Controller;
 
 use App\Entity\Merchant;
-use App\Form\MerchantForm;
+use App\Form\MerchantType;
 use App\Repository\MerchantRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
@@ -26,7 +26,7 @@ final class MerchantController extends AbstractController
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $merchant = new Merchant();
-        $form = $this->createForm(MerchantForm::class, $merchant);
+        $form = $this->createForm(MerchantType::class, $merchant);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {

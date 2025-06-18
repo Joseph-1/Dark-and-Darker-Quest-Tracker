@@ -18,7 +18,6 @@ class QuestType extends AbstractType
             ->add('map')
             ->add('objective')
             ->add('status')
-            ->add('slug')
             ->add('merchant', EntityType::class, [
                 'class' => Merchant::class,
                 'choice_label' => 'id',
