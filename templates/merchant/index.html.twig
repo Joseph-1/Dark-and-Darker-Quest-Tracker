@@ -23,8 +23,8 @@
                 <td>{{ merchant.picture }}</td>
                 <td>{{ merchant.slug }}</td>
                 <td>
-                    <a href="{{ path('app_merchant_show', {'id': merchant.id}) }}">show</a>
-                    <a href="{{ path('app_merchant_edit', {'id': merchant.id}) }}">edit</a>
+                    <a href="{{ path('merchant_show', {'id': merchant.id}) }}">show</a>
+                    <a href="{{ path('merchant_edit', {'id': merchant.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +35,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('app_merchant_new') }}">Create new</a>
+    <a href="{{ path('merchant_new') }}">Create new</a>
 {% endblock %}
