@@ -17,7 +17,12 @@
         {% include '_navbar.html.twig' %}
     </header>
 
-    <body>
+    <body class="min-h-screen flex flex-col">
+
+    <main class="flex-grow">
         {% block body %}{% endblock %}
+    </main>
+
+    {% include '_footer.html.twig' %}
     </body>
 </html>
