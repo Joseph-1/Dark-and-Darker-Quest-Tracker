@@ -11,6 +11,13 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: QuestRepository::class)]
 class Quest
 {
+    public const MAPS = [
+        'Any' => 'any',
+        'Goblin Caves' => 'goblin caves',
+        'Ruins' => 'ruins',
+        'Crypts' => 'crypts',
+        'Ice Cavern' => 'ice cavern',
+    ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]

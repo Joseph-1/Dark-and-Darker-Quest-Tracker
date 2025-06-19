@@ -3,13 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Item;
-use App\Form\ItemForm;
+use App\Form\ItemType;
 use App\Repository\ItemRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
+use Symfony\Component\String\Slugger\SluggerInterface;
 
 #[Route('/item', name: 'item_')]
 final class ItemController extends AbstractController
@@ -23,13 +24,18 @@ final class ItemController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, EntityManagerInterface $entityManager): Response
+    public function new(Request $request, EntityManagerInterface $entityManager, SluggerInterface $slugger): Response
     {
         $item = new Item();
-        $form = $this->createForm(ItemForm::class, $item);
+        $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+
+            // Allow to slugify string QuestName when a quest is added
+            $slug = $slugger->slug($item->getName());
+            $item->setSlug($slug);
+
             $entityManager->persist($item);
             $entityManager->flush();
 
@@ -58,7 +64,7 @@ final class ItemController extends AbstractController
     {
         $item = $itemRepository->findOneBy(['slug' => $slug]);
 
-        $form = $this->createForm(ItemForm::class, $item);
+        $form = $this->createForm(ItemType::class, $item);
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
