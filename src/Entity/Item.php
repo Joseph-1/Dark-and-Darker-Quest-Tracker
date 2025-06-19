@@ -10,6 +10,19 @@ use Doctrine\ORM\Mapping as ORM;
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 class Item
 {
+    //
+    public const RARITIES = [
+        'Any' => 'any',
+        'Junk' => 'junk',
+        'Poor' => 'poor',
+        'Common' => 'common',
+        'Uncommon' => 'uncommon',
+        'Rare' => 'rare',
+        'Epic' => 'epic',
+        'Legendary' => 'legendary',
+        'Unique' => 'unique',
+    ];
+
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -29,6 +42,9 @@ class Item
      */
     #[ORM\ManyToMany(targetEntity: Quest::class, mappedBy: 'items')]
     private Collection $quests;
+
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $slug = null;
 
     public function __construct()
     {
@@ -99,6 +115,18 @@ class Item
         if ($this->quests->removeElement($quest)) {
             $quest->removeItem($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
