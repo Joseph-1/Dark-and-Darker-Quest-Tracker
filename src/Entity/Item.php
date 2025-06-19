@@ -42,14 +42,14 @@ class Item
     /**
      * @var Collection<int, Quest>
      */
-    #[ORM\ManyToMany(targetEntity: Quest::class, mappedBy: 'items')]
+    #[ORM\ManyToMany(targetEntity: Quest::class, mappedBy: 'images')]
     private Collection $quests;
 
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $slug = null;
 
     // NOTE: This is not a mapped field of entity metadata, just a simple property.
-    #[Vich\UploadableField(mapping: 'items', fileNameProperty: 'picture')]
+    #[Vich\UploadableField(mapping: 'images', fileNameProperty: 'picture')]
     private ?File $imageFile = null;
 
     #[ORM\Column(nullable: true)]
