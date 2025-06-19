@@ -42,17 +42,22 @@ final class ItemController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Item $item): Response
+    #[Route('/show/{slug}', name: 'show', methods: ['GET'])]
+    public function show(string $slug, ItemRepository $itemRepository): Response
     {
+        $item = $itemRepository->findOneBy(['slug' => $slug]);
+
         return $this->render('item/show.html.twig', [
             'item' => $item,
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
-    public function edit(Request $request, Item $item, EntityManagerInterface $entityManager): Response
+    #[Route('/edit/{slug}', name: 'edit', methods: ['GET', 'POST'])]
+    public function edit(string $slug, ItemRepository $itemRepository, Request $request,
+                         EntityManagerInterface $entityManager): Response
     {
+        $item = $itemRepository->findOneBy(['slug' => $slug]);
+
         $form = $this->createForm(ItemForm::class, $item);
         $form->handleRequest($request);
 
