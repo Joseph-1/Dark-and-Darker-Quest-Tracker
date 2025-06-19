@@ -17,11 +17,13 @@ class ItemForm extends AbstractType
             ->add('name')
             ->add('rarity')
             ->add('picture')
+            /*
             ->add('quests', EntityType::class, [
                 'class' => Quest::class,
                 'choice_label' => 'id',
                 'multiple' => true,
             ])
+            */
         ;
     }
 

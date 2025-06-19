@@ -2,6 +2,7 @@
 
 namespace App\Form;
 
+use App\Entity\Item;
 use App\Entity\Merchant;
 use App\Entity\Quest;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
@@ -21,6 +22,13 @@ class QuestType extends AbstractType
             ->add('merchant', EntityType::class, [
                 'class' => Merchant::class,
                 'choice_label' => 'name',
+            ])
+            // Allow to get a drop-down list of Items
+            ->add('items', EntityType::class, [
+                'class' => Item::class,
+                'choice_label' => 'item_name',
+                'multiple' => true,
+                'expanded' => true,
             ])
         ;
     }
