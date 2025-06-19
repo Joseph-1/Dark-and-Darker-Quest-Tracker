@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\ItemRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
@@ -21,6 +23,17 @@ class Item
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $picture = null;
+
+    /**
+     * @var Collection<int, Quest>
+     */
+    #[ORM\ManyToMany(targetEntity: Quest::class, mappedBy: 'items')]
+    private Collection $quests;
+
+    public function __construct()
+    {
+        $this->quests = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -59,6 +72,33 @@ class Item
     public function setPicture(?string $picture): static
     {
         $this->picture = $picture;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Quest>
+     */
+    public function getQuests(): Collection
+    {
+        return $this->quests;
+    }
+
+    public function addQuest(Quest $quest): static
+    {
+        if (!$this->quests->contains($quest)) {
+            $this->quests->add($quest);
+            $quest->addItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuest(Quest $quest): static
+    {
+        if ($this->quests->removeElement($quest)) {
+            $quest->removeItem($this);
+        }
 
         return $this;
     }
