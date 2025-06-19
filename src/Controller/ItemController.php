@@ -11,10 +11,10 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
 
-#[Route('/item')]
+#[Route('/item', name: 'item_')]
 final class ItemController extends AbstractController
 {
-    #[Route(name: 'app_item_index', methods: ['GET'])]
+    #[Route('/',name: 'index', methods: ['GET'])]
     public function index(ItemRepository $itemRepository): Response
     {
         return $this->render('item/index.html.twig', [
@@ -22,7 +22,7 @@ final class ItemController extends AbstractController
         ]);
     }
 
-    #[Route('/new', name: 'app_item_new', methods: ['GET', 'POST'])]
+    #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, EntityManagerInterface $entityManager): Response
     {
         $item = new Item();
@@ -33,7 +33,7 @@ final class ItemController extends AbstractController
             $entityManager->persist($item);
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('item/new.html.twig', [
@@ -42,7 +42,7 @@ final class ItemController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_item_show', methods: ['GET'])]
+    #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Item $item): Response
     {
         return $this->render('item/show.html.twig', [
@@ -50,7 +50,7 @@ final class ItemController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}/edit', name: 'app_item_edit', methods: ['GET', 'POST'])]
+    #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         $form = $this->createForm(ItemForm::class, $item);
@@ -59,7 +59,7 @@ final class ItemController extends AbstractController
         if ($form->isSubmitted() && $form->isValid()) {
             $entityManager->flush();
 
-            return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->render('item/edit.html.twig', [
@@ -68,7 +68,7 @@ final class ItemController extends AbstractController
         ]);
     }
 
-    #[Route('/{id}', name: 'app_item_delete', methods: ['POST'])]
+    #[Route('/{id}', name: 'delete', methods: ['POST'])]
     public function delete(Request $request, Item $item, EntityManagerInterface $entityManager): Response
     {
         if ($this->isCsrfTokenValid('delete'.$item->getId(), $request->getPayload()->getString('_token'))) {
@@ -76,6 +76,6 @@ final class ItemController extends AbstractController
             $entityManager->flush();
         }
 
-        return $this->redirectToRoute('app_item_index', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
     }
 }
