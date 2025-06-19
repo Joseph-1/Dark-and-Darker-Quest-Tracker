@@ -30,6 +30,9 @@ class Item
     #[ORM\ManyToMany(targetEntity: Quest::class, mappedBy: 'items')]
     private Collection $quests;
 
+    #[ORM\Column(length: 50, nullable: true)]
+    private ?string $slug = null;
+
     public function __construct()
     {
         $this->quests = new ArrayCollection();
@@ -99,6 +102,18 @@ class Item
         if ($this->quests->removeElement($quest)) {
             $quest->removeItem($this);
         }
+
+        return $this;
+    }
+
+    public function getSlug(): ?string
+    {
+        return $this->slug;
+    }
+
+    public function setSlug(?string $slug): static
+    {
+        $this->slug = $slug;
 
         return $this;
     }
