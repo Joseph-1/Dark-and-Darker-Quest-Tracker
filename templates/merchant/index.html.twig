@@ -8,20 +8,20 @@
     <table class="table">
         <thead>
             <tr>
+                <th>Image</th>
                 <th>Id</th>
                 <th>Name</th>
-                <th>Picture</th>
-                <th>Slug</th>
                 <th>actions</th>
             </tr>
         </thead>
         <tbody>
         {% for merchant in merchants %}
             <tr>
+                <td>
+                    <img src="{{ vich_uploader_asset(merchant) }}" alt="{{ merchant.name }}">
+                </td>
                 <td>{{ merchant.id }}</td>
                 <td>{{ merchant.name }}</td>
-                <td>{{ merchant.picture }}</td>
-                <td>{{ merchant.slug }}</td>
                 <td>
                     <a href="{{ path('merchant_show', {slug: merchant.slug}) }}">show</a>
                     <a href="{{ path('merchant_edit', {slug: merchant.slug}) }}">edit</a>
