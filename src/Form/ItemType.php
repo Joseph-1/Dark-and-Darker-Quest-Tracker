@@ -9,6 +9,7 @@ use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Vich\UploaderBundle\Form\Type\VichImageType;
 
 class ItemType extends AbstractType
 {
@@ -17,13 +18,15 @@ class ItemType extends AbstractType
         $builder
             ->add('name')
             ->add('rarity')
-            ->add('picture')
             // Use of const RARITIES declared in /Entity/Item.php
             ->add('rarity', ChoiceType::class, [
                 // array_flip is here to secure the const in case where the const would be inversed
                 'choices' => array_flip(Item::RARITIES), // Allow to have "Junk" => "junk"
                 'label' => 'Rarity',
                 'placeholder' => 'Choose a rarity',
+            ])
+            ->add('imageFile', VichImageType::class, [
+                'required' => false,
             ])
             /*
             ->add('quests', EntityType::class, [
