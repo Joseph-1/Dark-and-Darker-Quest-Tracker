@@ -32,6 +32,10 @@ class RegistrationController extends AbstractController
 
             // do anything else you need here, like send an email
 
+            // Generate Token
+
+            // Send email
+
             return $this->redirectToRoute('app_home');
         }
 
