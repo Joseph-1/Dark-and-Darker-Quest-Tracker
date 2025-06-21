@@ -15,7 +15,7 @@ class JWTService
      * @param int $validity
      * @return string
      */
-    public function generate(array $header, array $payload, string $secret, int $validity = 86400): string
+    public function generate(array $header, array $payload, string $secret, int $validity = 10800): string
     {
         // Allow to verify that $validity isn't negative and add a time where the token expired
         if ($validity > 0){
@@ -35,7 +35,7 @@ class JWTService
         $base64Payload = str_replace(['+', '/', '='], ['-', '_', ''], $base64Payload);
 
         // Generate the signature
-        $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, SECRET, true);
+        $signature = hash_hmac('sha256', $base64Header . '.' . $base64Payload, $secret, true); // //!\\
         $base64Signature = base64_encode($signature);
 
         $signature = str_replace(['+', '/', '='], ['-', '_', ''], $base64Signature);
