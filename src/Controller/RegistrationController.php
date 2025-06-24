@@ -63,6 +63,9 @@ class RegistrationController extends AbstractController
                 compact('user', 'token') // = ['user' => $user, 'token' => $token]
             );
 
+            $this->addFlash('success', 'You are register, please check your email to activate
+            your account.');
+
             return $this->redirectToRoute('app_home');
         }
 
@@ -82,7 +85,22 @@ class RegistrationController extends AbstractController
             // Token is valid
             // Retrieve data (Payload)
             $payload = $jwt->getPayload($token);
-            dd($payload);
+
+            // Retrieve user
+            $user = $userRepository->find($payload['user_id']);
+
+            // Check if there is a user and that isn't already activate
+            if ($user && !$user->isVerified()) {
+                $user->setIsVerified(true);
+                $em->flush();
+
+                $this->addFlash('success', 'Your account has been verified.');
+
+                return $this->redirectToRoute('app_home');
+            }
         }
+        $this->addFlash('danger', 'Token is invalid or expired.');
+
+        return $this->redirectToRoute('app_home');
     }
 }
