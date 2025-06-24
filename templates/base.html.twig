@@ -18,6 +18,11 @@
     </header>
 
     <body class="min-h-screen flex flex-col">
+    {% for messages in app.flashes %}
+        {% for message in messages %}
+            <p>{{ message|raw }}</p>
+        {% endfor %}
+    {% endfor %}
 
     <main class="flex-grow">
         {% block body %}{% endblock %}
