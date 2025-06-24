@@ -4,6 +4,7 @@ namespace App\Controller;
 
 use App\Entity\User;
 use App\Form\RegistrationForm;
+use App\Repository\UserRepository;
 use App\Service\JWTService;
 use App\Service\SendEmailService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -68,5 +69,20 @@ class RegistrationController extends AbstractController
         return $this->render('registration/register.html.twig', [
             'registrationForm' => $form,
         ]);
+    }
+
+    // Allow to activate account if user click on the link
+    #[Route('/verif/{token}', name: 'verify_user')]
+    public function verifyUser($token, JWTService $jwt, UserRepository $userRepository,
+                               EntityManagerInterface $em): Response
+    {
+        // Check if token is valid (coherent, not expired and signature valid)
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) &&
+            $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
+            // Token is valid
+            // Retrieve data (Payload)
+            $payload = $jwt->getPayload($token);
+            dd($payload);
+        }
     }
 }
