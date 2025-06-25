@@ -7,10 +7,12 @@ use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: UserRepository::class)]
 #[ORM\UniqueConstraint(name: 'UNIQ_IDENTIFIER_EMAIL', fields: ['email'])]
 #[UniqueEntity(fields: ['email'], message: 'There is already an account with this email')]
+#[UniqueEntity('nickname')]
 class User implements UserInterface, PasswordAuthenticatedUserInterface
 {
     #[ORM\Id]
@@ -18,7 +20,13 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?int $id = null;
 
-    #[ORM\Column(length: 180)]
+    #[ORM\Column(length: 180, unique: true)]
+    #[Assert\NotBlank(message: 'You must enter an email')]
+    #[Assert\Email(message: 'You must enter a valid email')]
+    #[Assert\Length(
+        max: 180,
+        maxMessage: 'Your email {{ value }} do not exceed {{ limit }} characters'
+    )]
     private ?string $email = null;
 
     /**
@@ -31,10 +39,26 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
+    #[Assert\NotBlank(message: 'You must enter a password')]
+    #[Assert\Length(
+        min: 6,
+        max: 4096, // Symfony's limit to dodge DoS attack
+        minMessage: 'Your password should be at least {{ limit }} characters',
+    )]
     private ?string $password = null;
 
     #[ORM\Column]
     private ?bool $isVerified = false;
+
+    #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'You must provide a nickname')]
+    #[Assert\Length(
+        min: 5,
+        max: 30,
+        minMessage: 'Your nickname must be at least {{ limit }} characters',
+        maxMessage: 'Your nickname cannot be longer than {{ limit }} characters'
+    )]
+    private ?string $nickname = null;
 
     public function getId(): ?int
     {
@@ -117,6 +141,18 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): static
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getNickname(): ?string
+    {
+        return $this->nickname;
+    }
+
+    public function setNickname(string $nickname): static
+    {
+        $this->nickname = $nickname;
 
         return $this;
     }

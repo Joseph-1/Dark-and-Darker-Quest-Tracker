@@ -7,8 +7,11 @@ use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: QuestRepository::class)]
+#[UniqueEntity('name')]
 class Quest
 {
     public const MAPS = [
@@ -24,12 +27,24 @@ class Quest
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'You must provide a Quest name')]
+    #[Assert\Length(
+        min: 5,
+        max: 30,
+        minMessage: 'Quest name must be at least {{ limit }} characters long',
+        maxMessage: 'Quest name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'You must provide a map to the Quest')]
     private ?string $map = null;
 
     #[ORM\Column(type: Types::TEXT)]
+    #[Assert\NotBlank(message: 'You must provide a map to the Quest')]
+    #[Assert\Length(max: 500,
+    maxMessage: 'Quest name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $objective = null;
 
     #[ORM\Column(length: 20)]
