@@ -2,14 +2,17 @@
 
 namespace App\Controller;
 
+use App\Form\ResetPasswordFormTypeForm;
 use App\Form\ResetPasswordRequestFormTypeForm;
 use App\Repository\UserRepository;
 use App\Service\JWTService;
 use App\Service\SendEmailService;
+use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use Symfony\Component\Routing\Attribute\Route;
 use Symfony\Component\Routing\Generator\UrlGeneratorInterface;
 use Symfony\Component\Security\Http\Authentication\AuthenticationUtils;
@@ -103,8 +106,46 @@ class SecurityController extends AbstractController
     }
 
     #[Route(path: '/forgotten-password/{token}', name: 'reset_password')]
-    public function resetPassword(): Response
+    public function resetPassword(
+        $token,
+        JWTService $jwt,
+        UserRepository $userRepository,
+        Request $request,
+        UserPasswordHasherInterface $passwordHasher,
+        EntityManagerInterface $em,
+    ): Response
     {
-        return $this->render('security/forgotten_password.html.twig');
+        // Check if token is valid (coherent, not expired and signature valid)
+        if ($jwt->isValid($token) && !$jwt->isExpired($token) &&
+            $jwt->check($token, $this->getParameter('app.jwtsecret'))) {
+            // Token is valid
+            // Retrieve data (Payload)
+            $payload = $jwt->getPayload($token);
+
+            // Retrieve user
+            $user = $userRepository->find($payload['user_id']);
+
+            if ($user) {
+                $form  = $this->createForm(ResetPasswordFormTypeForm::class );
+
+                $form->handleRequest($request);
+
+                if ($form->isSubmitted() && $form->isValid()) {
+                    $user->setPassword(
+                        $passwordHasher->hashPassword($user, $form->get('password')->getData())
+                    );
+
+                    $em->flush();
+
+                    $this->addFlash('success', 'Password changed successfully.');
+                    return $this->redirectToRoute('app_login');
+                }
+                return $this->render('security/reset_password.html.twig', [
+                    'passForm' => $form->createView(),
+                ]);
+            }
+        }
+        $this->addFlash('danger', 'Token is invalid or expired.');
+        return $this->redirectToRoute('app_login');
     }
 }
