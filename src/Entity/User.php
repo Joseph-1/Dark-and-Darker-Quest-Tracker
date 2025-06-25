@@ -39,7 +39,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
      * @var string The hashed password
      */
     #[ORM\Column]
-    #[Assert\NotBlank(message: 'You must enter a password')]
     #[Assert\Length(
         min: 6,
         max: 4096, // Symfony's limit to dodge DoS attack
