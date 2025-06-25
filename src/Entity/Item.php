@@ -8,6 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Component\HttpFoundation\File\File;
 use Vich\UploaderBundle\Mapping\Annotation as Vich;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
 #[Vich\Uploadable]
@@ -31,12 +32,24 @@ class Item
     private ?int $id = null;
 
     #[ORM\Column(length: 100)]
+    #[Assert\NotBlank(message: 'You must provide a Item name')]
+    #[Assert\Length(
+        min: 5,
+        max: 30,
+        minMessage: 'Item name must be at least {{ limit }} characters',
+        maxMessage: 'Item name cannot be longer than {{ limit }} characters',
+    )]
     private ?string $name = null;
 
     #[ORM\Column(length: 30)]
+    #[Assert\NotBlank(message: 'You must provide a Item rarity')]
     private ?string $rarity = null;
 
     #[ORM\Column(length: 255, nullable: true)]
+    #[Assert\Length(
+        max: 255,
+        maxMessage: 'Item picture name is too long',
+    )]
     private ?string $picture = null;
 
     /**
