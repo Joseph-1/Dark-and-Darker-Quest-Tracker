@@ -39,6 +39,12 @@ security:
     access_control:
         # - { path: ^/admin, roles: ROLE_ADMIN }
         # - { path: ^/profile, roles: ROLE_USER }
+        - { path: ^/quest/new, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/quest/edit, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/merchant/new, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/merchant/edit, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/item/new, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/item/edit, roles: ROLE_CONTRIBUTOR }
 
 when@test:
     security:
