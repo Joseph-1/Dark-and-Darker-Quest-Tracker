@@ -15,7 +15,7 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 #[Route('/item', name: 'item_')]
 final class ItemController extends AbstractController
 {
-    #[Route('/',name: 'index', methods: ['GET'])]
+    #[Route('/', name: 'index', methods: ['GET'])]
     public function index(ItemRepository $itemRepository): Response
     {
         return $this->render('item/index.html.twig', [
