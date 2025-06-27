@@ -24,7 +24,9 @@
                 <td>{{ merchant.name }}</td>
                 <td>
                     <a href="{{ path('merchant_show', {slug: merchant.slug}) }}">show</a>
-                    <a href="{{ path('merchant_edit', {slug: merchant.slug}) }}">edit</a>
+                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                        <a href="{{ path('merchant_edit', {slug: merchant.slug}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -35,5 +37,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('merchant_new') }}">Create new</a>
+    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+        <a href="{{ path('merchant_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
