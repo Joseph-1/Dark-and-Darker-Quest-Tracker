@@ -26,7 +26,9 @@
                 <td>{{ item.rarity }}</td>
                 <td>
                     <a href="{{ path('item_show', {slug: item.slug}) }}">show</a>
-                    <a href="{{ path('item_edit', {slug: item.slug}) }}">edit</a>
+                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                        <a href="{{ path('item_edit', {slug: item.slug}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -37,5 +39,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('item_new') }}">Create new</a>
+    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+        <a href="{{ path('item_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
