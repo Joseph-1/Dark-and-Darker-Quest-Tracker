@@ -28,7 +28,9 @@
                 <td>{{ quest.slug }}</td>
                 <td>
                     <a href="{{ path('quest_show', {slug: quest.slug}) }}">show</a>
-                    <a href="{{ path('quest_edit', {slug: quest.slug}) }}">edit</a>
+                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                        <a href="{{ path('quest_edit', {slug: quest.slug}) }}">edit</a>
+                    {% endif %}
                 </td>
             </tr>
         {% else %}
@@ -39,5 +41,7 @@
         </tbody>
     </table>
 
-    <a href="{{ path('quest_new') }}">Create new</a>
+    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+        <a href="{{ path('quest_new') }}">Create new</a>
+    {% endif %}
 {% endblock %}
