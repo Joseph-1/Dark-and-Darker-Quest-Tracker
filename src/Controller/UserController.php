@@ -57,6 +57,10 @@ final class UserController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
+            // Retrieve the unic value into field "role" not mapped
+            $selectedRole = $form->get('roles')->getData(); // ex: "ROLE_ADMIN"
+            $user->setRoles([$selectedRole]); // => ["ROLE_ADMIN"]
+
             $entityManager->flush();
 
             return $this->redirectToRoute('user_index', [], Response::HTTP_SEE_OTHER);
@@ -64,7 +68,7 @@ final class UserController extends AbstractController
 
         return $this->render('user/edit.html.twig', [
             'user' => $user,
-            'form' => $form,
+            'editForm' => $form,
         ]);
     }
 
