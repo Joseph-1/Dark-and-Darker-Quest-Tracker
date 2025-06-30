@@ -70,9 +70,16 @@ class Item
     #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $updatedAt = null;
 
+    /**
+     * @var Collection<int, UserItemQuestCount>
+     */
+    #[ORM\OneToMany(targetEntity: UserItemQuestCount::class, mappedBy: 'item')]
+    private Collection $userItemQuestCounts;
+
     public function __construct()
     {
         $this->quests = new ArrayCollection();
+        $this->userItemQuestCounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -169,5 +176,35 @@ class Item
     public function getImageFile(): ?File
     {
         return $this->imageFile;
+    }
+
+    /**
+     * @return Collection<int, UserItemQuestCount>
+     */
+    public function getUserItemQuestCounts(): Collection
+    {
+        return $this->userItemQuestCounts;
+    }
+
+    public function addUserItemQuestCount(UserItemQuestCount $userItemQuestCount): static
+    {
+        if (!$this->userItemQuestCounts->contains($userItemQuestCount)) {
+            $this->userItemQuestCounts->add($userItemQuestCount);
+            $userItemQuestCount->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserItemQuestCount(UserItemQuestCount $userItemQuestCount): static
+    {
+        if ($this->userItemQuestCounts->removeElement($userItemQuestCount)) {
+            // set the owning side to null (unless already changed)
+            if ($userItemQuestCount->getItem() === $this) {
+                $userItemQuestCount->setItem(null);
+            }
+        }
+
+        return $this;
     }
 }
