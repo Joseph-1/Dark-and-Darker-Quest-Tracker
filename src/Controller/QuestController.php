@@ -5,7 +5,9 @@ namespace App\Controller;
 use App\Entity\Quest;
 use App\Form\QuestType;
 use App\Repository\QuestRepository;
+use App\Repository\UserItemQuestCountRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -16,7 +18,9 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class QuestController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(QuestRepository $questRepository): Response
+    public function index(
+        QuestRepository $questRepository,
+    ): Response
     {
         return $this->render('quest/index.html.twig', [
             'quests' => $questRepository->findAll(),
