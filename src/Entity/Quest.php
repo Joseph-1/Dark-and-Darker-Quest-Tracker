@@ -63,9 +63,16 @@ class Quest
     #[ORM\ManyToMany(targetEntity: Item::class, inversedBy: 'quests')]
     private Collection $items;
 
+    /**
+     * @var Collection<int, UserItemQuestCount>
+     */
+    #[ORM\OneToMany(targetEntity: UserItemQuestCount::class, mappedBy: 'quest')]
+    private Collection $userItemQuestCounts;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
+        $this->userItemQuestCounts = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -165,6 +172,36 @@ class Quest
     public function removeItem(Item $item): static
     {
         $this->items->removeElement($item);
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserItemQuestCount>
+     */
+    public function getUserItemQuestCounts(): Collection
+    {
+        return $this->userItemQuestCounts;
+    }
+
+    public function addUserItemQuestCount(UserItemQuestCount $userItemQuestCount): static
+    {
+        if (!$this->userItemQuestCounts->contains($userItemQuestCount)) {
+            $this->userItemQuestCounts->add($userItemQuestCount);
+            $userItemQuestCount->setQuest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserItemQuestCount(UserItemQuestCount $userItemQuestCount): static
+    {
+        if ($this->userItemQuestCounts->removeElement($userItemQuestCount)) {
+            // set the owning side to null (unless already changed)
+            if ($userItemQuestCount->getQuest() === $this) {
+                $userItemQuestCount->setQuest(null);
+            }
+        }
 
         return $this;
     }

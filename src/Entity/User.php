@@ -3,6 +3,8 @@
 namespace App\Entity;
 
 use App\Repository\UserRepository;
+use Doctrine\Common\Collections\ArrayCollection;
+use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 use Symfony\Bridge\Doctrine\Validator\Constraints\UniqueEntity;
 use Symfony\Component\Security\Core\User\PasswordAuthenticatedUserInterface;
@@ -63,6 +65,17 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         maxMessage: 'Your nickname cannot be longer than {{ limit }} characters'
     )]
     private ?string $nickname = null;
+
+    /**
+     * @var Collection<int, UserItemQuestCount>
+     */
+    #[ORM\OneToMany(targetEntity: UserItemQuestCount::class, mappedBy: 'user')]
+    private Collection $userItemQuestCounts;
+
+    public function __construct()
+    {
+        $this->userItemQuestCounts = new ArrayCollection();
+    }
 
     public function getId(): ?int
     {
@@ -157,6 +170,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setNickname(string $nickname): static
     {
         $this->nickname = $nickname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, UserItemQuestCount>
+     */
+    public function getUserItemQuestCounts(): Collection
+    {
+        return $this->userItemQuestCounts;
+    }
+
+    public function addUserItemQuestCount(UserItemQuestCount $userItemQuestCount): static
+    {
+        if (!$this->userItemQuestCounts->contains($userItemQuestCount)) {
+            $this->userItemQuestCounts->add($userItemQuestCount);
+            $userItemQuestCount->setUser($this);
+        }
+
+        return $this;
+    }
+
+    public function removeUserItemQuestCount(UserItemQuestCount $userItemQuestCount): static
+    {
+        if ($this->userItemQuestCounts->removeElement($userItemQuestCount)) {
+            // set the owning side to null (unless already changed)
+            if ($userItemQuestCount->getUser() === $this) {
+                $userItemQuestCount->setUser(null);
+            }
+        }
 
         return $this;
     }

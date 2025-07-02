@@ -3,10 +3,14 @@
 namespace App\Controller;
 
 use App\Entity\Item;
+use App\Entity\User;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use App\Repository\QuestRepository;
+use App\Service\ItemCountService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -88,5 +92,42 @@ final class ItemController extends AbstractController
         }
 
         return $this->redirectToRoute('item_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+    #[Route('/quest/{questId}/item/{itemId}/increment', name: 'count_increment', methods: ['POST'])]
+    public function increment(
+        int $questId,
+        int $itemId,
+        QuestRepository $questRepository,
+        ItemRepository $itemRepository,
+        Security $security,
+        ItemCountService $itemCountService,
+    ): Response {
+        $quest = $questRepository->find($questId);
+        $item = $itemRepository->find($itemId);
+        $user = $security->getUser();
+
+        $itemCountService->incrementCount($user, $item, $quest)->getCount();
+
+        return $this->redirectToRoute('quest_index', [], Response::HTTP_SEE_OTHER);
+    }
+
+
+    #[Route('/quest/{questId}/item/{itemId}/decrement', name: 'count_decrement', methods: ['POST'])]
+    public function decrement(
+        int $questId,
+        int $itemId,
+        QuestRepository $questRepository,
+        ItemRepository $itemRepository,
+        Security $security,
+        ItemCountService $itemCountService,
+    ): Response {
+        $quest = $questRepository->find($questId);
+        $item = $itemRepository->find($itemId);
+        $user = $security->getUser();
+
+        $itemCountService->decrementCount($user, $item, $quest)->getCount();
+
+        return $this->redirectToRoute('quest_index', [], Response::HTTP_SEE_OTHER);
     }
 }

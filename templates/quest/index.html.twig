@@ -8,7 +8,7 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>Count</th>
                 <th>Name</th>
                 <th>Map</th>
                 <th>Objective</th>
@@ -20,7 +20,24 @@
         <tbody>
         {% for quest in quests %}
             <tr>
-                <td>{{ quest.id }}</td>
+                <td>
+                    {% for item in quest.items %}
+                        {% set key = quest.id ~ '_' ~ item.id %}
+                        {% set count = counts[key] is defined and counts[key] ? counts[key].count : 0 %}
+                        <li>
+                            {{ item.name }} :
+                            <form action="{{ path('item_count_increment', { questId: quest.id, itemId: item.id }) }}" method="post" style="display:inline;">
+                                <button type="submit">+</button>
+                            </form>
+
+                            <span>{{ count }}</span>
+
+                            <form action="{{ path('item_count_decrement', { questId: quest.id, itemId: item.id }) }}" method="post" style="display:inline;">
+                                <button type="submit">-</button>
+                            </form>
+                        </li>
+                    {% endfor %}
+                </td>
                 <td>{{ quest.name }}</td>
                 <td>{{ quest.map }}</td>
                 <td>{{ quest.objective }}</td>

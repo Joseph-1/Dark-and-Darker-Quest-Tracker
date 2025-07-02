@@ -5,8 +5,11 @@ namespace App\Controller;
 use App\Entity\Quest;
 use App\Form\QuestType;
 use App\Repository\QuestRepository;
+use App\Repository\UserItemQuestCountRepository;
 use Doctrine\ORM\EntityManagerInterface;
+use phpDocumentor\Reflection\Types\Integer;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Bundle\SecurityBundle\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Attribute\Route;
@@ -16,10 +19,36 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class QuestController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(QuestRepository $questRepository): Response
+    public function index(
+        QuestRepository $questRepository,
+        UserItemQuestCountRepository $countRepository,
+        Security $security
+    ): Response
     {
+        // Retrieve user currently connected with Security service
+        $user = $security->getUser();
+        $quests = $questRepository->findAll();
+
+        // For each Quest, retrieve the count link to associated Item
+        $counts = [];
+
+        // Run through Quest
+        foreach ($quests as $quest) {
+            // then through each associated Item
+            foreach ($quest->getItems() as $item) {
+                $key = $quest->getId() . '_' . $item->getId();
+                // Look for Entity UserItemQuestCount
+                $counts[$key] = $countRepository->findOneBy([
+                    'user' => $user,
+                    'quest' => $quest,
+                    'item' => $item,
+                ]);
+            }
+        }
+
         return $this->render('quest/index.html.twig', [
             'quests' => $questRepository->findAll(),
+            'counts' => $counts,
         ]);
     }
 
