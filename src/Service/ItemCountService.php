@@ -27,7 +27,7 @@ class ItemCountService
         Quest $quest,
     ): UserItemQuestCount
     {
-        // Cherche une entrée existante
+        // Look for an existing entry
         // Allow to do :  $this->repository->findOneBy([]); because of our constructor line 18
         $userItemQuestCount = $this->repository->findOneBy([
             'user' => $user,
@@ -35,29 +35,28 @@ class ItemCountService
             'quest' => $quest,
         ]);
 
-        // Si la valeur est null on la met par défaut à 0 et oon l'incrémente de +1,
-        // sinon si elle est >= 0 on l'incrémente de +1
+        // If value is null, we set it to 0 and increment it by +1,
+        // else if she's >= 0, we increment it by +1
         if ($userItemQuestCount === null) {
-            // On créer un nouvelle objet
             $userItemQuestCount = new UserItemQuestCount();
 
-            // On assigne les relations et on initialise le compteur à 0
+            // Assign the relations and init counter to 0
             $userItemQuestCount->setUser($user);
             $userItemQuestCount->setItem($item);
             $userItemQuestCount->setQuest($quest);
             $userItemQuestCount->setCount(0);
 
-            // Puis on incrémente de 1
+            // Then increment by +1
             $userItemQuestCount->setCount($userItemQuestCount->getCount() + 1);
 
-            // Allow to do this line 54 and 55 because of our constructor
+            // Allow to do this line 53 and 54 because of our constructor
             $this->em->persist($userItemQuestCount);
             $this->em->flush();
         }
 
-        // Incrémenter la valeur si elle existe déjà
+        // Increment value if she already exist
         else {
-            // On récupère la valeur et on l'edit en l'incrémentant
+            // Retrieve the value and we edit it by incrementing it
             $userItemQuestCount->setCount($userItemQuestCount->getCount() + 1);
 
             $this->em->flush();
@@ -71,7 +70,7 @@ class ItemCountService
         Quest $quest,
     ): UserItemQuestCount
     {
-        // Cherche une entrée existante
+        // Look for an existing entry
         $userItemQuestCount = $this->repository->findOneBy([
             'user' => $user,
             'item' => $item,
@@ -79,7 +78,7 @@ class ItemCountService
         ]);
 
         if ($userItemQuestCount === null) {
-            // Si l'entrée n'existe pas, on crée avec count=0, pas de décrémentation (pas de négatif)
+            // If the entry doesn't exist, we create with count=0, no decrement (negative not allowed)
             $userItemQuestCount = new UserItemQuestCount();
 
             $userItemQuestCount->setUser($user);
@@ -91,7 +90,7 @@ class ItemCountService
             $this->em->flush();
         }
 
-        // Décrémente la valeur si elle existe déjà
+        // Decrement the value if she already exist
         else {
             if ($userItemQuestCount->getCount() > 0) {
                 $userItemQuestCount->setCount($userItemQuestCount->getCount() - 1);
