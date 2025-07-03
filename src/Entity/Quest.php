@@ -58,21 +58,22 @@ class Quest
     private ?Merchant $merchant = null;
 
     /**
-     * @var Collection<int, Item>
-     */
-    #[ORM\ManyToMany(targetEntity: Item::class, inversedBy: 'quests')]
-    private Collection $items;
-
-    /**
      * @var Collection<int, UserItemQuestCount>
      */
     #[ORM\OneToMany(targetEntity: UserItemQuestCount::class, mappedBy: 'quest')]
     private Collection $userItemQuestCounts;
 
+    /**
+     * @var Collection<int, QuestItem>
+     */
+    #[ORM\OneToMany(targetEntity: QuestItem::class, mappedBy: 'quest')]
+    private Collection $questItems;
+
     public function __construct()
     {
         $this->items = new ArrayCollection();
         $this->userItemQuestCounts = new ArrayCollection();
+        $this->questItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -153,30 +154,6 @@ class Quest
     }
 
     /**
-     * @return Collection<int, Item>
-     */
-    public function getItems(): Collection
-    {
-        return $this->items;
-    }
-
-    public function addItem(Item $item): static
-    {
-        if (!$this->items->contains($item)) {
-            $this->items->add($item);
-        }
-
-        return $this;
-    }
-
-    public function removeItem(Item $item): static
-    {
-        $this->items->removeElement($item);
-
-        return $this;
-    }
-
-    /**
      * @return Collection<int, UserItemQuestCount>
      */
     public function getUserItemQuestCounts(): Collection
@@ -200,6 +177,36 @@ class Quest
             // set the owning side to null (unless already changed)
             if ($userItemQuestCount->getQuest() === $this) {
                 $userItemQuestCount->setQuest(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuestItem>
+     */
+    public function getQuestItems(): Collection
+    {
+        return $this->questItems;
+    }
+
+    public function addQuestItem(QuestItem $questItem): static
+    {
+        if (!$this->questItems->contains($questItem)) {
+            $this->questItems->add($questItem);
+            $questItem->setQuest($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestItem(QuestItem $questItem): static
+    {
+        if ($this->questItems->removeElement($questItem)) {
+            // set the owning side to null (unless already changed)
+            if ($questItem->getQuest() === $this) {
+                $questItem->setQuest(null);
             }
         }
 
