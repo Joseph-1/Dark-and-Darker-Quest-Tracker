@@ -66,12 +66,13 @@ class Quest
     /**
      * @var Collection<int, QuestItem>
      */
-    #[ORM\OneToMany(targetEntity: QuestItem::class, mappedBy: 'quest')]
+    // cascade: ['persist', 'remove'] => Allow to persist QuestItem when Quest is create (and then persist too)
+    #[ORM\OneToMany(targetEntity: QuestItem::class, mappedBy: 'quest', cascade: ['persist', 'remove'], orphanRemoval: true)]
     private Collection $questItems;
 
     public function __construct()
     {
-        $this->items = new ArrayCollection();
+        // $this->items = new ArrayCollection();
         $this->userItemQuestCounts = new ArrayCollection();
         $this->questItems = new ArrayCollection();
     }
