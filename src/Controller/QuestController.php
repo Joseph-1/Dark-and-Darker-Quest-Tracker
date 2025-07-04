@@ -35,9 +35,10 @@ final class QuestController extends AbstractController
         // Run through Quest
         foreach ($quests as $quest) {
             // then through each associated Item
-            foreach ($quest->getItems() as $item) {
+            foreach ($quest->getQuestItems() as $questItem) {
+                $item = $questItem->getItem();
                 $key = $quest->getId() . '_' . $item->getId();
-                // Look for Entity UserItemQuestCount
+
                 $counts[$key] = $countRepository->findOneBy([
                     'user' => $user,
                     'quest' => $quest,

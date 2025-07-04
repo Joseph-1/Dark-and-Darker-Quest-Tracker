@@ -21,20 +21,22 @@
         {% for quest in quests %}
             <tr>
                 <td>
-                    {% for item in quest.items %}
+                    {% for questItem in quest.questItems %}
+                        {% set item = questItem.item %}
                         {% set key = quest.id ~ '_' ~ item.id %}
                         {% set count = counts[key] is defined and counts[key] ? counts[key].count : 0 %}
                         <li>
                             {{ item.name }} :
-                            <form action="{{ path('item_count_increment', { questId: quest.id, itemId: item.id }) }}" method="post" style="display:inline;">
+                            <form action="{{ path('item_count_increment', { questId: quest.id, itemId: item.id }) }}"
+                                  method="post" style="display:inline;">
                                 <button type="submit">+</button>
                             </form>
-
-                            <span>{{ count }}</span>
-
-                            <form action="{{ path('item_count_decrement', { questId: quest.id, itemId: item.id }) }}" method="post" style="display:inline;">
+                            <form action="{{ path('item_count_decrement', { questId: quest.id, itemId: item.id }) }}"
+                                  method="post" style="display:inline;">
                                 <button type="submit">-</button>
                             </form>
+                            <span id="count-{{ key }}">{{ count }}</span>
+                            / {{ questItem.requiredCount }}
                         </li>
                     {% endfor %}
                 </td>
