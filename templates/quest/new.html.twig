@@ -5,7 +5,57 @@
 {% block body %}
     <h1>Create new Quest</h1>
 
-    {{ include('quest/_form.html.twig') }}
+    {# {{ include('quest/_form.html.twig') }} #}
+
+    {{ form_start(form) }}
+    <h3>Items requis pour la quête</h3>
+    <ul id="quest-items-list" data-prototype="{{ form_widget(form.questItems.vars.prototype)|e('html_attr') }}">
+        {% for questItemForm in form.questItems %}
+            <li>
+                {{ form_row(questItemForm.item) }}
+                {{ form_row(questItemForm.requiredCount) }}
+                <button type="button" class="remove-item">Supprimer</button>
+            </li>
+        {% endfor %}
+    </ul>
+
+    <button type="button" id="add-item">Ajouter un item requis</button>
+
+    <button type="submit">Sauvegarder</button>
+    {{ form_end(form) }}
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const collectionHolder = document.getElementById('quest-items-list');
+            const addButton = document.getElementById('add-item');
+
+            // compteur d'index pour prototype
+            let index = collectionHolder.children.length;
+
+            addButton.addEventListener('click', () => {
+                // récupère prototype HTML + remplace __name__ par index
+                let newForm = collectionHolder.dataset.prototype.replace(/__name__/g, index);
+                index++;
+
+                // crée un <li> et ajoute le contenu
+                let newLi = document.createElement('li');
+                newLi.innerHTML = newForm + '<button type="button" class="remove-item">Supprimer</button>';
+                collectionHolder.appendChild(newLi);
+
+                // ajoute événement suppression sur ce bouton
+                newLi.querySelector('.remove-item').addEventListener('click', (e) => {
+                    e.target.closest('li').remove();
+                });
+            });
+
+            // bouton supprimer sur éléments déjà présents
+            collectionHolder.querySelectorAll('.remove-item').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    e.target.closest('li').remove();
+                });
+            });
+        });
+    </script>
 
     <a href="{{ path('quest_index') }}">back to list</a>
 {% endblock %}

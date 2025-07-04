@@ -19,10 +19,11 @@ class QuestItemForm extends AbstractType
             ->add('item', EntityType::class, [
                 'class' => Item::class,
                 'choice_label' => 'name',
-                'label' => 'Item',
+                'label' => 'Choose an Item',
             ])
             ->add('requiredCount', IntegerType::class, [
                 'label' => 'Quantity Required',
+                'attr' => ['min' => 0],
             ]);
     }
 
