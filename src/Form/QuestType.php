@@ -40,6 +40,7 @@ class QuestType extends AbstractType
                 'label' => 'Map',
                 'placeholder' => 'Choose a map',
             ])
+                // Call field into QuestItemForm to use here
             ->add('questItems', CollectionType::class, [
                 'entry_type' => QuestItemForm::class,
                 'allow_add' => true,

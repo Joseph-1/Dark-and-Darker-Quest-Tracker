@@ -10,6 +10,7 @@
     {{ form_start(form) }}
     <h3>Items required for the quest</h3>
     <ul id="quest-items-list" data-prototype="{{ form_widget(form.questItems.vars.prototype)|e('html_attr') }}">
+        {# form.questItems : field questItems declared into QuestType.php, and his type is CollectionType. #}
         {% for questItemForm in form.questItems %}
             <li>
                 {{ form_row(questItemForm.item) }}
