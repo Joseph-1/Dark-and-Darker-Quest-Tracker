@@ -8,7 +8,7 @@
     {# {{ include('quest/_form.html.twig') }} #}
 
     {{ form_start(form) }}
-    <h3>Items requis pour la quête</h3>
+    <h3>Items required for the quest</h3>
     <ul id="quest-items-list" data-prototype="{{ form_widget(form.questItems.vars.prototype)|e('html_attr') }}">
         {% for questItemForm in form.questItems %}
             <li>
@@ -19,9 +19,11 @@
         {% endfor %}
     </ul>
 
-    <button type="button" id="add-item">Ajouter un item requis</button>
+    <div>
+        <button type="button" id="add-item">Add required Item</button>
+    </div>
 
-    <button type="submit">Sauvegarder</button>
+    <button type="submit">Add New Quest</button>
     {{ form_end(form) }}
 
     <script>
