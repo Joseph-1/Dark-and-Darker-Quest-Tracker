@@ -6,6 +6,7 @@ use App\Entity\Item;
 use App\Entity\Quest;
 use App\Entity\User;
 use App\Entity\UserItemQuestCount;
+use App\Repository\QuestItemRepository;
 use App\Repository\UserItemQuestCountRepository;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\HttpFoundation\Response;
@@ -25,15 +26,23 @@ class ItemCountService
         User $user,
         Item $item,
         Quest $quest,
+        QuestItemRepository $questItemRepository
     ): UserItemQuestCount
     {
-        // Look for an existing entry
+        // Look for an user counter
         // Allow to do :  $this->repository->findOneBy([]); because of our constructor line 18
         $userItemQuestCount = $this->repository->findOneBy([
             'user' => $user,
             'item' => $item,
             'quest' => $quest,
         ]);
+
+        $questItem = $questItemRepository->findOneBy([
+            'quest' => $quest,
+            'item' => $item,
+        ]);
+
+        $requiredCount = $questItem->getRequiredCount();
 
         // If value is null, we set it to 0 and increment it by +1,
         // else if she's >= 0, we increment it by +1
@@ -46,20 +55,22 @@ class ItemCountService
             $userItemQuestCount->setQuest($quest);
             $userItemQuestCount->setCount(0);
 
-            // Then increment by +1
-            $userItemQuestCount->setCount($userItemQuestCount->getCount() + 1);
-
-            // Allow to do this line 53 and 54 because of our constructor
-            $this->em->persist($userItemQuestCount);
-            $this->em->flush();
+            // Doesn't allow to bypass requiredCount
+            if ($userItemQuestCount->getCount() < $requiredCount) {
+                // Then increment by +1
+                $userItemQuestCount->setCount($userItemQuestCount->getCount() + 1);
+                $this->em->persist($userItemQuestCount);
+                $this->em->flush();
+            }
         }
 
         // Increment value if she already exist
         else {
-            // Retrieve the value and we edit it by incrementing it
-            $userItemQuestCount->setCount($userItemQuestCount->getCount() + 1);
-
-            $this->em->flush();
+            if ($userItemQuestCount->getCount() < $requiredCount) {
+                // Retrieve the value and we edit it by incrementing it
+                $userItemQuestCount->setCount($userItemQuestCount->getCount() + 1);
+                $this->em->flush();
+            }
         }
         return $userItemQuestCount;
     }

@@ -54,12 +54,6 @@ class Item
     )]
     private ?string $picture = null;
 
-    /**
-     * @var Collection<int, Quest>
-     */
-    #[ORM\ManyToMany(targetEntity: Quest::class, mappedBy: 'images')]
-    private Collection $quests;
-
     #[ORM\Column(length: 50, nullable: true)]
     private ?string $slug = null;
 
@@ -76,10 +70,17 @@ class Item
     #[ORM\OneToMany(targetEntity: UserItemQuestCount::class, mappedBy: 'item')]
     private Collection $userItemQuestCounts;
 
+    /**
+     * @var Collection<int, QuestItem>
+     */
+    #[ORM\OneToMany(targetEntity: QuestItem::class, mappedBy: 'item')]
+    private Collection $questItems;
+
     public function __construct()
     {
         $this->quests = new ArrayCollection();
         $this->userItemQuestCounts = new ArrayCollection();
+        $this->questItems = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -202,6 +203,36 @@ class Item
             // set the owning side to null (unless already changed)
             if ($userItemQuestCount->getItem() === $this) {
                 $userItemQuestCount->setItem(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, QuestItem>
+     */
+    public function getQuestItems(): Collection
+    {
+        return $this->questItems;
+    }
+
+    public function addQuestItem(QuestItem $questItem): static
+    {
+        if (!$this->questItems->contains($questItem)) {
+            $this->questItems->add($questItem);
+            $questItem->setItem($this);
+        }
+
+        return $this;
+    }
+
+    public function removeQuestItem(QuestItem $questItem): static
+    {
+        if ($this->questItems->removeElement($questItem)) {
+            // set the owning side to null (unless already changed)
+            if ($questItem->getItem() === $this) {
+                $questItem->setItem(null);
             }
         }
 

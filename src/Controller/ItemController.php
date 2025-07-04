@@ -6,6 +6,7 @@ use App\Entity\Item;
 use App\Entity\User;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
+use App\Repository\QuestItemRepository;
 use App\Repository\QuestRepository;
 use App\Service\ItemCountService;
 use Doctrine\ORM\EntityManagerInterface;
@@ -101,13 +102,14 @@ final class ItemController extends AbstractController
         QuestRepository $questRepository,
         ItemRepository $itemRepository,
         Security $security,
+        QuestItemRepository $questItemRepository,
         ItemCountService $itemCountService,
     ): Response {
         $quest = $questRepository->find($questId);
         $item = $itemRepository->find($itemId);
         $user = $security->getUser();
 
-        $itemCountService->incrementCount($user, $item, $quest)->getCount();
+        $itemCountService->incrementCount($user, $item, $quest, $questItemRepository)->getCount();
 
         return $this->redirectToRoute('quest_index', [], Response::HTTP_SEE_OTHER);
     }
