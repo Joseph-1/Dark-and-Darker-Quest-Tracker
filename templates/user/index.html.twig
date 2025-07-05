@@ -39,5 +39,14 @@
         </tbody>
     </table>
 
+    <div>
+        {% if page > 1 %}
+            <a href="{{ path('user_index', {page: page - 1}) }}">Previous page</a>
+        {% endif %}
+        {% if page < maxPage %}
+            <a href="{{ path('user_index', {page: page + 1}) }}">Next page</a>
+        {% endif %}
+    </div>
+
     <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}
