@@ -2,8 +2,10 @@
 
 namespace App\Controller;
 
+use App\Entity\Merchant;
 use App\Entity\Quest;
 use App\Form\QuestType;
+use App\Repository\MerchantRepository;
 use App\Repository\QuestRepository;
 use App\Repository\UserItemQuestCountRepository;
 use Doctrine\ORM\EntityManagerInterface;
@@ -22,7 +24,9 @@ final class QuestController extends AbstractController
     public function index(
         QuestRepository $questRepository,
         UserItemQuestCountRepository $countRepository,
-        Security $security
+        MerchantRepository $merchantRepository,
+        Security $security,
+        Request $request,
     ): Response
     {
         // Retrieve user currently connected with Security service
@@ -47,8 +51,12 @@ final class QuestController extends AbstractController
             }
         }
 
+        $page = $request->query->getInt('page', 1);
+        $quests = $questRepository->paginateQuests($page);
+
+
         return $this->render('quest/index.html.twig', [
-            'quests' => $questRepository->findAll(),
+            'quests' => $quests,
             'counts' => $counts,
         ]);
     }

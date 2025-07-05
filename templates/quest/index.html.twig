@@ -9,7 +9,8 @@
         <thead>
             <tr>
                 <th>Count</th>
-                <th>Name</th>
+                <th>{{ knp_pagination_sortable(quests, 'Name', 'q.name') }}</th>
+                <th>Merchant</th>
                 <th>Map</th>
                 <th>Objective</th>
                 <th>Status</th>
@@ -41,6 +42,7 @@
                     {% endfor %}
                 </td>
                 <td>{{ quest.name }}</td>
+                <td>{{ quest.merchant.name }}</td>
                 <td>{{ quest.map }}</td>
                 <td>{{ quest.objective }}</td>
                 <td>{{ quest.status }}</td>
