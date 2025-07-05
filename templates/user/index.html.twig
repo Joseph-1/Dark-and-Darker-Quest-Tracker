@@ -8,12 +8,12 @@
     <table class="table">
         <thead>
             <tr>
-                <th>Id</th>
+                <th>{{ knp_pagination_sortable(users, 'ID', 'u.id') }}</th>
+                <th>{{ knp_pagination_sortable(users, 'Nickname', 'u.nickname') }}</th>
                 <th>Email</th>
                 <th>Roles</th>
                 <th>Password</th>
                 <th>IsVerified</th>
-                <th>Nickname</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -21,11 +21,11 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td>{{ user.nickname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>{{ user.password }}</td>
                 <td>{{ user.isVerified ? 'Yes' : 'No' }}</td>
-                <td>{{ user.nickname }}</td>
                 <td>
                     <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
@@ -38,6 +38,8 @@
         {% endfor %}
         </tbody>
     </table>
+
+    {{ knp_pagination_render(users) }}
 
     <a href="{{ path('user_new') }}">Create new</a>
 {% endblock %}
