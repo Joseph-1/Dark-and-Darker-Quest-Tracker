@@ -18,14 +18,10 @@ final class UserController extends AbstractController
     public function index(UserRepository $userRepository, Request $request): Response
     {
         $page = $request->query->getInt('page', 1);
-        $limit = 5;
-        $users = $userRepository->paginateUser($page, $limit);
-        $maxPage = ceil($users->count() / $limit);
+        $users = $userRepository->paginateUsers($page);
 
         return $this->render('user/index.html.twig', [
             'users' => $users,
-            'maxPage' => $maxPage,
-            'page' => $page,
         ]);
     }
 
