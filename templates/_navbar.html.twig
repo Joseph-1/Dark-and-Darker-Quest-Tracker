@@ -3,7 +3,7 @@
             <div class="text-[#d29131] font-bold text-xl">
                 <a href="#">Dark and Darker - Quest Tracker</a>
             </div>
-            <div class="hidden md:block text-[#CCCCCC]">
+            <li class="hidden md:block text-[#CCCCCC]">
                 <ul class="flex items-center space-x-8">
                     <li><a href="{{ path('quest_index') }}" class="font-semibold">Quest</a></li>
                     <li><a href="{{ path('merchant_index') }}" class="font-semibold">Merchant</a></li>
@@ -28,6 +28,15 @@
                             </a>
                         {% endif %}
                     </li>
+                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                        <li class="btn">
+                            <button class="" type="button"
+                                    data-drawer-target="drawer-navigation" data-drawer-show="drawer-navigation"
+                                    aria-controls="drawer-navigation">
+                                Admin Dashboard
+                            </button>
+                        </li>
+                    {% endif %}
                 </ul>
             </div>
             <div class="md:hidden text-[#CCCCCC]">
@@ -48,6 +57,3 @@
             </ul>
         </div>
     </nav>
-
-{% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-{% endif %}
