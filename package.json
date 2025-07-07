@@ -11,6 +11,8 @@
         "core-js": "^3.38.0",
         "postcss": "^8.5.6",
         "regenerator-runtime": "^0.13.9",
+        "sass": "^1.89.2",
+        "sass-loader": "^16.0.5",
         "tailwindcss": "^4.1.10",
         "webpack": "^5.74.0",
         "webpack-cli": "^5.1.0"
@@ -26,6 +28,8 @@
     "dependencies": {
         "@tailwindcss/postcss": "^4.1.10",
         "flowbite": "^3.1.2",
-        "postcss-loader": "^8.1.1"
+        "force": "^0.0.3",
+        "postcss-loader": "^8.1.1",
+        "tw-elements": "^2.0.0"
     }
 }
