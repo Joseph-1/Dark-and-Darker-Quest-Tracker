@@ -9,15 +9,18 @@
         {% endblock %}
 
         {% block javascripts %}
+            {% block importmap %}{{ importmap('app') }}{% endblock %}
             {{ encore_entry_script_tags('app') }}
         {% endblock %}
     </head>
 
-    <header>
+    <header class="bg-[#121212] shadow-2xl rounded-lg">
         {% include '_navbar.html.twig' %}
     </header>
 
     <body class="min-h-screen flex flex-col">
+    {% include '_side_bar.html.twig' %}
+
     {% for messages in app.flashes %}
         {% for message in messages %}
             <p>{{ message|raw }}</p>

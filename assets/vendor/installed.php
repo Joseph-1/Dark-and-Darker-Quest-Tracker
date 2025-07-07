@@ -19,4 +19,24 @@
     array (
     ),
   ),
+  'tw-elements' => 
+  array (
+    'version' => '2.0.0',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
+  'tw-elements/css/tw-elements.min.css' => 
+  array (
+    'version' => '2.0.0',
+    'dependencies' => 
+    array (
+    ),
+    'extraFiles' => 
+    array (
+    ),
+  ),
 );
