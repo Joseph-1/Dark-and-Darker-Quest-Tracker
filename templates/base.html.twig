@@ -19,6 +19,8 @@
     </header>
 
     <body class="min-h-screen flex flex-col">
+    {% include '_side_bar.html.twig' %}
+
     {% for messages in app.flashes %}
         {% for message in messages %}
             <p>{{ message|raw }}</p>
