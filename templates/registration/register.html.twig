@@ -5,16 +5,20 @@
 {% block body %}
     <h1>Register</h1>
 
-    {{ form_errors(registrationForm) }}
+        <div class="flex items-center justify-center bg-[#1E1E1E] mt-20 mx-70 rounded-xl shadow-2xl h-120">
+            {{ form_errors(registrationForm) }}
 
-    {{ form_start(registrationForm) }}
-        {{ form_row(registrationForm.nickname) }}
-        {{ form_row(registrationForm.email) }}
-        {{ form_row(registrationForm.plainPassword, {
-            label: 'Password'
-        }) }}
-        {{ form_row(registrationForm.agreeTerms) }}
+            {{ form_start(registrationForm) }}
+            {{ form_row(registrationForm.nickname) }}
+            {{ form_row(registrationForm.email) }}
+            {{ form_row(registrationForm.plainPassword, {
+                label: 'Password'
+            }) }}
+            {{ form_row(registrationForm.agreeTerms) }}
 
-        <button type="submit" class="btn">Register</button>
-    {{ form_end(registrationForm) }}
+            <div class="btn">
+                <button type="submit" class="">Register</button>
+            </div>
+            {{ form_end(registrationForm) }}
+        </div>
 {% endblock %}
