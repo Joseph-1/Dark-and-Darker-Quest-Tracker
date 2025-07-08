@@ -1,0 +1,32 @@
+{% use 'tailwind_2_layout.html.twig' %}
+
+{%- block form_label -%}
+    {%- set label_attr = label_attr|merge({ class: label_attr.class|default(label_class|default(
+        'block text-[#CCCCCC] font-bold'
+    )) }) -%}
+    {{- parent() -}}
+{%- endblock form_label -%}
+
+{%- block checkbox_row -%}
+    {%- set row_attr = row_attr|merge({ class: row_attr.class|default(row_class|default('mb-6')) }) -%}
+    {%- set widget_attr = {} -%}
+    {%- if help is not empty -%}
+        {%- set widget_attr = {attr: {'aria-describedby': id ~"_help"}} -%}
+    {%- endif -%}
+    <div{% with {attr: row_attr} %}{{ block('attributes') }}{% endwith %}>
+        {{- form_errors(form) -}}
+        <div class="inline-flex items-center">
+            {{- form_widget(form, widget_attr) -}}
+            <div class="ml-2">
+                {{- form_label(form) -}}
+            </div>
+        </div>
+        {{- form_help(form) -}}
+    </div>
+{%- endblock checkbox_row -%}
+
+
+
+
+
+
