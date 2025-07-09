@@ -3,9 +3,18 @@
 {% block title %}New Merchant{% endblock %}
 
 {% block body %}
-    <h1>Create new Merchant</h1>
+
+<div class="flex flex-col items-center justify-between bg-[#1E1E1E] mt-20 mx-70 rounded-xl shadow-2xl min-h-120">
+    <h1>Create new Merchant :</h1>
 
     {{ include('merchant/_form.html.twig') }}
 
-    <a href="{{ path('merchant_index') }}">back to list</a>
+    <div class="btn mb-15">
+        <a href="{{ path('merchant_index') }}">
+            Back to Merchant list
+        </a>
+    </div>
+</div>
+
 {% endblock %}
+

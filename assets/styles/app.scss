@@ -9,6 +9,20 @@ body {
     color: #494c4d;
 }
 
+input, select, textarea {
+    @apply bg-[#343434] text-white rounded-md pl-2 py-1 mt-2;
+}
+
+h1 {
+    @apply text-[#d29131] font-bold text-2xl mt-10;
+}
+
+h2 {
+    @apply text-[#d29131] font-bold text-lg;
+}
+
+
+
 @layer components {
     .btn {
         @apply mt-4 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none
@@ -21,7 +35,7 @@ body {
     .btnDel {
         @apply mt-4 text-white bg-red-600 hover:bg-red-700 focus:ring-4 focus:outline-none
         focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
-        border border-gray-200 dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-900;
+        border border-white dark:bg-red-700 dark:hover:bg-red-800 dark:focus:ring-red-900;
     }
 }
 
@@ -30,6 +44,14 @@ body {
         @apply mt-4 text-white bg-amber-600 hover:bg-amber-700 focus:ring-4 focus:outline-none
         focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
         border border-white dark:bg-amber-700 dark:hover:bg-amber-800 dark:focus:ring-amber-900;
+    }
+}
+
+@layer components {
+    .btnShow {
+        @apply text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none
+        focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
+        border border-white dark:bg-green-700 dark:hover:bg-green-800 dark:focus:ring-green-900;
     }
 }
 
