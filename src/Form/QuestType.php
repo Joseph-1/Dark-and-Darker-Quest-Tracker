@@ -46,7 +46,7 @@ class QuestType extends AbstractType
                 'allow_delete' => true,
                 'by_reference' => false,
                 'prototype' => true,
-                'label' => 'Items required for quest',
+                'label' => false,
                 'attr' => ['class' => 'quest-items-collection'],
             ])
         ;
