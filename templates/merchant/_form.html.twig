@@ -1,4 +1,7 @@
 {{ form_start(form) }}
     {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    <div class="btn">
+        <button class="btn">{{ button_label|default('Add New Merchant') }}</button>
+    </div>
 {{ form_end(form) }}
+

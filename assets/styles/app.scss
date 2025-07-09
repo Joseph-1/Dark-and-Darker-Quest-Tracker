@@ -9,6 +9,16 @@ body {
     color: #494c4d;
 }
 
+input {
+    @apply bg-[#343434] text-white rounded-md pl-2 py-1 mt-2;
+}
+
+h1 {
+    @apply text-[#d29131] font-bold text-2xl mt-20;
+}
+
+
+
 @layer components {
     .btn {
         @apply mt-4 text-white bg-gray-700 hover:bg-gray-800 focus:ring-4 focus:outline-none
