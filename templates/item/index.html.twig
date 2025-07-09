@@ -34,9 +34,13 @@
                     {{ item.rarity }}
                 </td>
                 <td class="px-6 py-4">
-                    <a href="{{ path('item_show', {slug: item.slug}) }}">show</a>
+                    <div class="btnShow">
+                        <a href="{{ path('item_show', {slug: item.slug}) }}">show</a>
+                    </div>
                     {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-                        <a href="{{ path('item_edit', {slug: item.slug}) }}">edit</a>
+                        <div class="btnUpdate">
+                            <a href="{{ path('item_edit', {slug: item.slug}) }}">edit</a>
+                        </div>
                     {% endif %}
                 </td>
             </tr>
@@ -53,7 +57,6 @@
             <a href="{{ path('item_new') }}">Create new</a>
         </div>
     {% endif %}
-
 </div>
 
 
