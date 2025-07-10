@@ -16,9 +16,11 @@
                 <th scope="col" class="px-6 py-3">
                     Rarity
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Actions
-                </th>
+                {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <th scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -33,12 +35,11 @@
                 <td class="px-6 py-4">
                     {{ item.rarity }}
                 </td>
-                <td class="px-6 py-4">
-                        <a href="{{ path('item_show', {slug: item.slug}) }}" class="btnShow text-white">show</a>
-                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <a href="{{ path('item_edit', {slug: item.slug}) }}" class="btnUpdate text-white">edit</a>
-                    {% endif %}
-                </td>
+                {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <td class="px-6 py-4">
+                        <a href="{{ path('item_edit', {slug: item.slug}) }}" class="btnUpdate text-white">edit</a>
+                    </td>
+                {% endif %}
             </tr>
             {% else %}
             <tr>
