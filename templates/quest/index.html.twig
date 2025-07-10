@@ -70,10 +70,12 @@
                         </div>
                     {% endfor %}
                 </td>
-                <td>
-                    <a href="{{ path('quest_show', {slug: quest.slug}) }}">show</a>
-                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-                        <a href="{{ path('quest_edit', {slug: quest.slug}) }}">edit</a>
+                <td class="px-6 py-4">
+                    <div class="flex space-x-2">
+                        <a href="{{ path('quest_show', {slug: quest.slug}) }}" class="btnShow text-white mt-4">show</a>
+                        {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                            <a href="{{ path('quest_edit', {slug: quest.slug}) }}" class="btnUpdate text-white mb-4">edit</a>
+                    </div>
                     {% endif %}
                 </td>
             </tr>
@@ -87,7 +89,9 @@
     </div>
 
     {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-        <a href="{{ path('quest_new') }}">Create new</a>
+        <div class="my-4">
+            <a href="{{ path('quest_new') }}" class="btn text-white">Create new</a>
+        </div>
     {% endif %}
 
     <div class="mb-4">
