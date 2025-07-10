@@ -4,7 +4,7 @@
 
 {% block body %}
     <div class="flex flex-col items-center justify-between bg-[#1E1E1E] mt-10 mx-70 rounded-xl shadow-2xl min-h-120">
-        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8 w-full max-w-[900px] mx-auto">
+        <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8 w-full max-w-[1200px] mx-auto">
             <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                 <tr>
@@ -47,12 +47,8 @@
                             {{ user.isVerified ? 'Yes' : 'No' }}
                         </td>
                         <td class="px-6 py-4">
-                            <div class="btnShow">
-                                <a href="{{ path('user_show', {'id': user.id}) }}">show</a>
-                            </div>
-                            <div class="btnUpdate">
-                                <a href="{{ path('user_edit', {'id': user.id}) }}">edit</a>
-                            </div>
+                                <a href="{{ path('user_show', {'id': user.id}) }}" class="btnShow text-white">show</a>
+                                <a href="{{ path('user_edit', {'id': user.id}) }}" class="btnUpdate text-white">edit</a>
                         </td>
                     </tr>
                 {% else %}
@@ -64,8 +60,8 @@
             </table>
         </div>
 
-        <div class="btn mb-4">
-            <a href="{{ path('user_new') }}">Create new</a>
+        <div class="my-4">
+            <a href="{{ path('user_new') }}" class="btn text-white">Create new</a>
         </div>
 
         <div class="mb-4">
