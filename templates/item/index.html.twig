@@ -11,7 +11,7 @@
                 <th scope="col" class="px-6 py-3">
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Name
+                    {{ knp_pagination_sortable(items, 'Name', 'i.name') }}
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Rarity
@@ -53,7 +53,9 @@
             <a href="{{ path('item_new') }}" class="btn text-white">Create new</a>
         </div>
     {% endif %}
+
+    <div class="mb-4">
+        {{ knp_pagination_render(items) }}
+    </div>
 </div>
-
-
 {% endblock %}
