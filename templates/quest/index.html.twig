@@ -22,9 +22,11 @@
             </th>
             <th scope="col" class="px-6 py-3">
             </th>
-            <th scope="col" class="px-6 py-3">
-                actions
-            </th>
+            {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                <th scope="col" class="px-6 py-3">
+                    actions
+                </th>
+            {% endif %}
         </tr>
         </thead>
         <tbody>
@@ -48,36 +50,39 @@
                 <td class="px-6 py-4">
                     {{ quest.objective }}
                 </td>
-                <td class="px-6 py-4 w-[300px] text-center align-middle">
+                <td class="py-4 w-[300px] text-center align-middle">
                     {% for questItem in quest.questItems %}
                         {% set item = questItem.item %}
                         {% set key = quest.id ~ '_' ~ item.id %}
                         {% set count = counts[key] is defined and counts[key] ? counts[key].count : 0 %}
-                        <div class="flex items-center justify-center gap-2 mb-2">
+                        <div class="flex items-center justify-center gap-2">
                             <img
                                 src="{{ vich_uploader_asset(questItem.item, 'imageFile') }}"
                                 alt="{{ questItem.item.name }}"
                                 class="max-w-[30px] max-h-[30px]"
                             >
                             <form action="{{ path('item_count_decrement', { questId: quest.id, itemId: item.id }) }}" method="post">
-                                <button type="submit">-</button>
+                                <button type="submit" class="inline-flex items-center justify-center w-6 h-6 text-sm
+                                font-bold text-gray-700 bg-transparent border border-gray-400 rounded-lg
+                                transition-colors duration-200 hover:border-gray-900">-</button>
                             </form>
                             <span id="count-{{ key }}">{{ count }}</span>
                             / {{ questItem.requiredCount }}
                             <form action="{{ path('item_count_increment', { questId: quest.id, itemId: item.id }) }}" method="post">
-                                <button type="submit">+</button>
+                                <button type="submit" class="inline-flex items-center justify-center w-6 h-6 text-sm
+                                font-bold text-gray-700 bg-transparent border border-gray-400 rounded-lg
+                                transition-colors duration-200 hover:border-gray-900">+</button>
                             </form>
                         </div>
                     {% endfor %}
                 </td>
-                <td class="px-6 py-4">
-                    <div class="flex space-x-2">
-                        <a href="{{ path('quest_show', {slug: quest.slug}) }}" class="btnShow text-white mt-4">show</a>
-                        {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-                            <a href="{{ path('quest_edit', {slug: quest.slug}) }}" class="btnUpdate text-white mb-4">edit</a>
-                    </div>
-                    {% endif %}
-                </td>
+                {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <td class="px-6 py-4">
+                        <div class="flex space-x-2">
+                                <a href="{{ path('quest_edit', {slug: quest.slug}) }}" class="btnUpdate text-white mb-4">edit</a>
+                        </div>
+                    </td>
+                {% endif %}
             </tr>
         {% else %}
             <tr>
