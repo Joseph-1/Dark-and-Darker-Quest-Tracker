@@ -4,21 +4,23 @@
 
 {% block body %}
 <div class="flex flex-col items-center justify-between bg-[#1E1E1E] mt-10 mx-70 rounded-xl shadow-2xl min-h-120">
-    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8 w-full max-w-[900px] mx-auto">
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8 w-full max-w-[1200px] mx-auto">
     <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
             <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
                 <th scope="col" class="px-6 py-3">
                 </th>
                 <th scope="col" class="px-6 py-3">
-                    Name
+                    {{ knp_pagination_sortable(items, 'Name', 'i.name') }}
                 </th>
                 <th scope="col" class="px-6 py-3">
                     Rarity
                 </th>
-                <th scope="col" class="px-6 py-3">
-                    Actions
-                </th>
+                {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <th scope="col" class="px-6 py-3">
+                        Actions
+                    </th>
+                {% endif %}
             </tr>
             </thead>
             <tbody>
@@ -33,16 +35,11 @@
                 <td class="px-6 py-4">
                     {{ item.rarity }}
                 </td>
-                <td class="px-6 py-4">
-                    <div class="btnShow">
-                        <a href="{{ path('item_show', {slug: item.slug}) }}">show</a>
-                    </div>
-                    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-                        <div class="btnUpdate">
-                            <a href="{{ path('item_edit', {slug: item.slug}) }}">edit</a>
-                        </div>
-                    {% endif %}
-                </td>
+                {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+                    <td class="px-6 py-4">
+                        <a href="{{ path('item_edit', {slug: item.slug}) }}" class="btnUpdate text-white">edit</a>
+                    </td>
+                {% endif %}
             </tr>
             {% else %}
             <tr>
@@ -53,11 +50,13 @@
         </table>
     </div>
     {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-        <div class="btn mb-8">
-            <a href="{{ path('item_new') }}">Create new</a>
+        <div class="my-4">
+            <a href="{{ path('item_new') }}" class="btn text-white">Create new</a>
         </div>
     {% endif %}
+
+    <div class="mb-4">
+        {{ knp_pagination_render(items) }}
+    </div>
 </div>
-
-
 {% endblock %}

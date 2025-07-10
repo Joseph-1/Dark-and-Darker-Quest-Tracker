@@ -51,15 +51,15 @@ h2 {
     .btnShow {
         @apply text-white bg-green-600 hover:bg-green-700 focus:ring-4 focus:outline-none
         focus:ring-green-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
-        border border-white dark:bg-green-700 dark:hover:bg-green-800 dark:focus:ring-green-900;
+        border border-white dark:bg-green-700 dark:hover:bg-green-800 dark:focus:ring-green-900 mb-5;
     }
 }
 
 @layer components {
     .btnAdmin {
-        @apply mt-4 text-white bg-amber-500 hover:bg-amber-600 focus:ring-4 focus:outline-none
-        focus:ring-amber-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center
-        border border-amber-500 dark:text-white dark:bg-amber-600 dark:hover:bg-amber-500 dark:focus:ring-amber-700;
+        @apply mt-4 text-white bg-[#AA7527] hover:bg-[#b77d2a] focus:ring-4 focus:outline-none
+        focus:ring-[#f2b24d] font-medium rounded-lg text-sm px-5 py-2.5 text-center
+        border border-[#d29131] dark:text-white dark:bg-[#AA7527] dark:hover:bg-[#b77d2a] dark:focus:ring-[#a06c23];
     }
 }
 
