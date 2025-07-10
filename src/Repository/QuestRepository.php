@@ -27,7 +27,7 @@ class QuestRepository extends ServiceEntityRepository
             [
                 'distinct' => true,
                 // Allow to add security => we can sort only by specified column bellow
-                'sortFieldAllowList' => ['q.name'],
+                'sortFieldAllowList' => ['q.name', 'q.map'],
             ]
         );
     }

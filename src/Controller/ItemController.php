@@ -3,7 +3,6 @@
 namespace App\Controller;
 
 use App\Entity\Item;
-use App\Entity\User;
 use App\Form\ItemType;
 use App\Repository\ItemRepository;
 use App\Repository\QuestItemRepository;
@@ -21,10 +20,13 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class ItemController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(ItemRepository $itemRepository): Response
+    public function index(ItemRepository $itemRepository, Request $request): Response
     {
+        $page = $request->query->getInt('page', 1);
+        $items = $itemRepository->paginateItems($page);
+
         return $this->render('item/index.html.twig', [
-            'items' => $itemRepository->findAll(),
+            'items' => $items,
         ]);
     }
 
