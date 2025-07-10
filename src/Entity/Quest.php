@@ -36,7 +36,7 @@ class Quest
     )]
     private ?string $name = null;
 
-    #[ORM\Column(length: 30)]
+    #[ORM\Column(length: 150)]
     #[Assert\NotBlank(message: 'You must provide a map to the Quest')]
     private ?string $map = null;
 
