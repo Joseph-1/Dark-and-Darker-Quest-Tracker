@@ -20,6 +20,7 @@ class Quest
         'Ruins' => 'ruins',
         'Crypts' => 'crypts',
         'Ice Cavern' => 'ice cavern',
+        'Inferno' => 'inferno',
     ];
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -212,5 +213,18 @@ class Quest
         }
 
         return $this;
+    }
+
+    public function getMapColorClass(): string
+    {
+        return match ($this->map) {
+            'Any' => 'bg-gray-500 text-gray-200',
+            'Goblin Caves' => 'bg-[#34533d] text-gray-200',
+            'Ruins' => 'bg-[#927143] text-gray-200',
+            'Crypts' => 'bg-[#daa520] text-gray-200',
+            'Ice Cavern' => 'bg-[#5b7a92] text-gray-200',
+            'Inferno' => 'bg-[#5f0505] text-gray-200',
+            default => 'bg-gray-600 text-gray-200',
+        };
     }
 }
