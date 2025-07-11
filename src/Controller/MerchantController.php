@@ -91,4 +91,21 @@ final class MerchantController extends AbstractController
 
         return $this->redirectToRoute('merchant_index', [], Response::HTTP_SEE_OTHER);
     }
+
+    #[Route('/quests/merchant/{slug}', name: 'quests_by_merchant')]
+    public function questsByMerchant(MerchantRepository $merchantRepository, string $slug): Response
+    {
+        $merchant = $merchantRepository->findOneBy(['slug' => $slug]);
+
+        if (!$merchant) {
+            throw $this->createNotFoundException('Merchant not found');
+        }
+
+        $quests = $merchant->getQuests();
+
+        return $this->render('quest/by_merchant.html.twig', [
+            'merchant' => $merchant,
+            'quests' => $quests,
+        ]);
+    }
 }
