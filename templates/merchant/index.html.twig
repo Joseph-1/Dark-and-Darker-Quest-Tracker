@@ -3,41 +3,40 @@
 {% block title %}Merchant index{% endblock %}
 
 {% block body %}
-    <h1>Merchant index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Image</th>
-                <th>Id</th>
-                <th>Name</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for merchant in merchants %}
-            <tr>
-                <td>
-                    <img src="{{ vich_uploader_asset(merchant) }}" alt="{{ merchant.name }}">
-                </td>
-                <td>{{ merchant.id }}</td>
-                <td>{{ merchant.name }}</td>
-                <td>
-                    <a href="{{ path('merchant_show', {slug: merchant.slug}) }}">show</a>
+    <div class="items-center justify-center bg-[#1E1E1E] py-4 mt-10 mx-70 rounded-xl shadow-2xl min-h-120">
+        <div class="text-center">
+            <h1 class="!text-gray-300 mb-6">Travelers and Merchants</h1>
+        </div>
+        <div class="grid grid-cols-5 gap-1">
+
+            {% for merchant in merchants %}
+                <div class="flex flex-col items-center">
+                    <a href="{{ path('merchant_quests_by_merchant', { slug: merchant.slug }) }}" class="">
+                        <img src="{{ vich_uploader_asset(merchant) }}" alt="{{ merchant.name }}" class="object-cover">
+                    </a>
+
+                    <a href="{{ path('merchant_quests_by_merchant', { slug: merchant.slug }) }}" class="">
+                        <h3>
+                            {{ merchant.name }}
+                        </h3>
+                    </a>
+
+
                     {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-                        <a href="{{ path('merchant_edit', {slug: merchant.slug}) }}">edit</a>
+                        <a href="{{ path('merchant_edit', {slug: merchant.slug}) }}" class="text-xs text-blue-400 mt-1 hover:underline">edit</a>
                     {% endif %}
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="5">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+                </div>
+            {% else %}
+                <div class="col-span-5 text-center text-white">no records found</div>
+            {% endfor %}
+        </div>
 
-    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
-        <a href="{{ path('merchant_new') }}">Create new</a>
-    {% endif %}
+        {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+            <div class="text-center my-4">
+                <a href="{{ path('merchant_new') }}" class="btn text-white">Create new</a>
+            </div>
+        {% endif %}
+    </div>
+
 {% endblock %}

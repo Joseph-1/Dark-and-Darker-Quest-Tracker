@@ -3,27 +3,42 @@
 {% block title %}Edit Quest{% endblock %}
 
 {% block body %}
-    <h1>Edit Quest</h1>
-
-    {# {{ include('quest/_form.html.twig', {'button_label': 'Update'}) }} #}
+<div class="flex flex-col items-center justify-between bg-[#1E1E1E] mt-10 mx-70 rounded-xl shadow-2xl min-h-120">
+    <h1 class="my-4">Edit Quest</h1>
 
     {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.map) }}
+    {{ form_row(form.objective) }}
+    {{ form_row(form.status) }}
+    {{ form_row(form.merchant) }}
+
+    <h2 class="mb-2">Items required for quest :</h2>
     <ul id="quest-items-list" data-prototype="{{ form_widget(form.questItems.vars.prototype)|e('html_attr') }}">
         {% for questItemForm in form.questItems %}
             <li>
                 {{ form_row(questItemForm.item) }}
                 {{ form_row(questItemForm.requiredCount) }}
-                <button type="button" class="remove-item">Delete Item</button>
+                <div class="btnDel mb-2">
+                    <button type="button" class="remove-item">Delete Item</button>
+                </div>
             </li>
         {% endfor %}
     </ul>
 
-    <div>
-        <button type="button" id="add-item">Add required Item</button>
+    <div class="btn">
+        <button type="button" id="add-item">Add new required Item</button>
     </div>
 
-    <button type="submit">Edit</button>
+    <div class="btnUpdate text-white mt-8">
+        <button type="submit">Edit</button>
+    </div>
     {{ form_end(form) }}
+
+    <a href="{{ path('quest_index') }}" class="btn text-white">Back to list</a>
+
+    {{ include('quest/_delete_form.html.twig') }}
+</div>
 
     <script>
         document.addEventListener('DOMContentLoaded', () => {
@@ -57,8 +72,4 @@
             });
         });
     </script>
-
-    <a href="{{ path('quest_index') }}">back to list</a>
-
-    {{ include('quest/_delete_form.html.twig') }}
 {% endblock %}
