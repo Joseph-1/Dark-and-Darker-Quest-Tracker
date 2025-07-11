@@ -1,0 +1,21 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Merchant Quest{% endblock %}
+
+{% block body %}
+
+<h1 class="text-2xl font-bold mb-4">Quest for {{ merchant.name }}</h1>
+
+{% if quests is empty %}
+    <p>No quest found.</p>
+{% else %}
+    <ul class="space-y-2">
+        {% for quest in quests %}
+            <li class="bg-gray-800 text-white p-4 rounded-md">
+                {{ quest.name }} – {{ quest.map }}
+            </li>
+        {% endfor %}
+    </ul>
+{% endif %}
+
+{% endblock %}

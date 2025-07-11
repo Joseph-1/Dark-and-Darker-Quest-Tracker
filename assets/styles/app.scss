@@ -14,10 +14,10 @@ input, select, textarea {
 }
 
 h1 {
-    @apply text-[#d29131] font-bold text-2xl mt-10;
+    @apply text-[#d29131] font-bold text-2xl;
 }
 
-h2 {
+h2, h3 {
     @apply text-[#d29131] font-bold text-lg;
 }
 
