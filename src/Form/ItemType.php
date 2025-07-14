@@ -4,6 +4,7 @@ namespace App\Form;
 
 use App\Entity\Item;
 use App\Entity\Quest;
+use App\Entity\Rarity;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
@@ -18,12 +19,9 @@ class ItemType extends AbstractType
         $builder
             ->add('name')
             ->add('rarity')
-            // Use of const RARITIES declared in /Entity/Item.php
-            ->add('rarity', ChoiceType::class, [
-                // array_flip is here to secure the const in case where the const would be inversed
-                'choices' => array_flip(Item::RARITIES), // Allow to have "Junk" => "junk"
-                'label' => 'Rarity',
-                'placeholder' => 'Choose a rarity',
+            ->add('rarity', EntityType::class, [
+                'class' => Rarity::class,
+                'choice_label' => 'name',
             ])
             ->add('imageFile', VichImageType::class, [
                 'required' => false,

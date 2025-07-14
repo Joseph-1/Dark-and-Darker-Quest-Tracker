@@ -36,7 +36,7 @@
                     {{ item.name }}
                 </td>
                 <td class="px-6 py-4">
-                    {{ item.rarity }}
+                    {{ item.rarity.name }}
                 </td>
                 {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
                     <td class="px-6 py-4">
