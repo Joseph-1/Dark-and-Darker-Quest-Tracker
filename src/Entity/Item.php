@@ -12,22 +12,9 @@ use Vich\UploaderBundle\Mapping\Annotation as Vich;
 use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: ItemRepository::class)]
-#[UniqueEntity('name')]
 #[Vich\Uploadable]
 class Item
 {
-    public const RARITIES = [
-        'Any' => 'any',
-        'Junk' => 'junk',
-        'Poor' => 'poor',
-        'Common' => 'common',
-        'Uncommon' => 'uncommon',
-        'Rare' => 'rare',
-        'Epic' => 'epic',
-        'Legendary' => 'legendary',
-        'Unique' => 'unique',
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
@@ -42,10 +29,6 @@ class Item
         maxMessage: 'Item name cannot be longer than {{ limit }} characters',
     )]
     private ?string $name = null;
-
-    #[ORM\Column(length: 30)]
-    #[Assert\NotBlank(message: 'You must provide a Item rarity')]
-    private ?string $rarity = null;
 
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
@@ -76,6 +59,9 @@ class Item
     #[ORM\OneToMany(targetEntity: QuestItem::class, mappedBy: 'item')]
     private Collection $questItems;
 
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Rarity $rarity = null;
+
     public function __construct()
     {
         $this->quests = new ArrayCollection();
@@ -96,18 +82,6 @@ class Item
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getRarity(): ?string
-    {
-        return $this->rarity;
-    }
-
-    public function setRarity(string $rarity): static
-    {
-        $this->rarity = $rarity;
 
         return $this;
     }
@@ -235,6 +209,18 @@ class Item
                 $questItem->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRarity(): ?Rarity
+    {
+        return $this->rarity;
+    }
+
+    public function setRarity(?Rarity $rarity): static
+    {
+        $this->rarity = $rarity;
 
         return $this;
     }
