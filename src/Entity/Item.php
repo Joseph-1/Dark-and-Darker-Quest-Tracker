@@ -16,18 +16,6 @@ use Symfony\Component\Validator\Constraints as Assert;
 #[Vich\Uploadable]
 class Item
 {
-    public const RARITIES = [
-        'Any' => 'any',
-        'Junk' => 'junk',
-        'Poor' => 'poor',
-        'Common' => 'common',
-        'Uncommon' => 'uncommon',
-        'Rare' => 'rare',
-        'Epic' => 'epic',
-        'Legendary' => 'legendary',
-        'Unique' => 'unique',
-    ];
-
     #[ORM\Id]
     #[ORM\GeneratedValue]
     #[ORM\Column]
