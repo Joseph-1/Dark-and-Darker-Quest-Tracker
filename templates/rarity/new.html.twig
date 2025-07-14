@@ -5,7 +5,15 @@
 {% block body %}
     <h1>Create new Rarity</h1>
 
-    {{ include('rarity/_form.html.twig') }}
+    {{ form_start(form) }}
+    {{ form_row(form.name) }}
+    {{ form_row(form.color) }}
+    <p>Color must be hexadecimal only (ex: #cccccc)</p>
+    <div class="btn">
+        <button type="submit">Add New Rarity</button>
+    </div>
+    {{ form_end(form) }}
+
 
     <a href="{{ path('rarity_index') }}">back to list</a>
 {% endblock %}

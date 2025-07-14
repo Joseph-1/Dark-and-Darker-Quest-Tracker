@@ -13,6 +13,7 @@ class RarityForm extends AbstractType
     {
         $builder
             ->add('name')
+            ->add('color')
         ;
     }
 
