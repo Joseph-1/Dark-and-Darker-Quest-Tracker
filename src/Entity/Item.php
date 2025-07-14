@@ -43,10 +43,6 @@ class Item
     )]
     private ?string $name = null;
 
-    #[ORM\Column(length: 30)]
-    #[Assert\NotBlank(message: 'You must provide a Item rarity')]
-    private ?string $rarity = null;
-
     #[ORM\Column(length: 255, nullable: true)]
     #[Assert\Length(
         max: 255,
@@ -96,18 +92,6 @@ class Item
     public function setName(string $name): static
     {
         $this->name = $name;
-
-        return $this;
-    }
-
-    public function getRarity(): ?string
-    {
-        return $this->rarity;
-    }
-
-    public function setRarity(string $rarity): static
-    {
-        $this->rarity = $rarity;
 
         return $this;
     }
