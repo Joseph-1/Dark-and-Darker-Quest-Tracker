@@ -60,6 +60,9 @@ class Item
     #[ORM\OneToMany(targetEntity: QuestItem::class, mappedBy: 'item')]
     private Collection $questItems;
 
+    #[ORM\ManyToOne(inversedBy: 'items')]
+    private ?Rarity $rarity = null;
+
     public function __construct()
     {
         $this->quests = new ArrayCollection();
@@ -207,6 +210,18 @@ class Item
                 $questItem->setItem(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getRarity(): ?Rarity
+    {
+        return $this->rarity;
+    }
+
+    public function setRarity(?Rarity $rarity): static
+    {
+        $this->rarity = $rarity;
 
         return $this;
     }
