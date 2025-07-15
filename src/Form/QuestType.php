@@ -8,6 +8,7 @@ use Symfony\Bridge\Doctrine\Form\Type\EntityType;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
@@ -18,7 +19,13 @@ class QuestType extends AbstractType
         $builder
             ->add('name')
             ->add('map')
-            ->add('objective')
+            ->add('objective', TextareaType::class, [
+                'label' => 'Objective',
+                'required' => false,
+                'attr' => [
+                    'rows' => 5,
+                ],
+            ])
             ->add('status')
             ->add('merchant', EntityType::class, [
                 'class' => Merchant::class,
