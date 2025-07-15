@@ -45,6 +45,8 @@ security:
         - { path: ^/merchant/edit, roles: ROLE_CONTRIBUTOR }
         - { path: ^/item/new, roles: ROLE_CONTRIBUTOR }
         - { path: ^/item/edit, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/rarity/new, roles: ROLE_CONTRIBUTOR }
+        - { path: ^/rarity/edit, roles: ROLE_CONTRIBUTOR }
         - { path: ^/user/*, roles: ROLE_ADMIN }
 
 when@test:
