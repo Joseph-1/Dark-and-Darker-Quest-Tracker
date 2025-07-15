@@ -23,7 +23,7 @@ class Item
     #[ORM\Column(length: 100)]
     #[Assert\NotBlank(message: 'You must provide a Item name')]
     #[Assert\Length(
-        min: 5,
+        min: 3,
         max: 30,
         minMessage: 'Item name must be at least {{ limit }} characters',
         maxMessage: 'Item name cannot be longer than {{ limit }} characters',
