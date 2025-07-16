@@ -42,28 +42,30 @@
                         class="max-w-[60px] max-h-[60px] object-cover w-full h-full rounded-2xl"
                     >
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 max-w-20">
                     {{ quest.name }}
                 </td>
-                <td class="px-6 py-4">
+                <td class="px-6 py-4 whitespace-nowrap">
                     <span class="px-2 py-1 rounded {{ quest.mapColorClass }}">
                         {{ quest.map|title }}
                     </span>
                 </td>
                 <td class="px-6 py-4">
-                    {{ quest.objective|nl2br }}
+                    {{ quest.objective|nl2br|highlight_rarity }}
                 </td>
-                <td class="py-4 w-[300px] text-center align-middle">
+                <td class="py-4 text-center align-middle w-64">
                     {% for questItem in quest.questItems %}
                         {% set item = questItem.item %}
                         {% set key = quest.id ~ '_' ~ item.id %}
                         {% set count = counts[key] is defined and counts[key] ? counts[key].count : 0 %}
-                        <div class="flex items-center justify-center gap-2">
+                        <div class="flex items-center justify-center">
                             <img
                                 src="{{ vich_uploader_asset(questItem.item, 'imageFile') }}"
                                 alt="{{ questItem.item.name }}"
                                 class="max-w-[30px] max-h-[30px]"
                             >
+                        </div>
+                            <div class="flex items-center justify-center gap-2 mb-2">
                             <form action="{{ path('item_count_decrement', { questId: quest.id, itemId: item.id }) }}" method="post">
                                 <button type="submit" class="inline-flex items-center justify-center w-6 h-6 text-sm
                                 font-bold text-gray-700 bg-transparent border border-gray-400 rounded-lg
