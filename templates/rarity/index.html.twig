@@ -3,35 +3,46 @@
 {% block title %}Rarity index{% endblock %}
 
 {% block body %}
-    <h1>Rarity index</h1>
 
-    <table class="table">
-        <thead>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Color</th>
-                <th>actions</th>
-            </tr>
-        </thead>
-        <tbody>
-        {% for rarity in rarities %}
-            <tr>
-                <td>{{ rarity.id }}</td>
-                <td>{{ rarity.name }}</td>
-                <td>{{ rarity.color }}</td>
-                <td>
-                    <a href="{{ path('rarity_show', {'id': rarity.id}) }}">show</a>
-                    <a href="{{ path('rarity_edit', {'id': rarity.id}) }}">edit</a>
-                </td>
-            </tr>
-        {% else %}
-            <tr>
-                <td colspan="3">no records found</td>
-            </tr>
-        {% endfor %}
-        </tbody>
-    </table>
+<div class="flex flex-col items-center justify-between bg-[#1E1E1E] my-20 mx-70 rounded-xl shadow-2xl min-h-120 min-w-120">
+    <h1 class="text-2xl font-bold mt-4 mb-6 text-center">Rarity Index</h1>
 
-    <a href="{{ path('rarity_new') }}">Create new</a>
+    <div class="relative overflow-x-auto shadow-md sm:rounded-lg mt-8 w-full max-w-[1200px] mx-auto">
+        <table class="w-full text-sm text-left rtl:text-right text-gray-500 dark:text-gray-400">
+            <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+            <tr>
+                <th scope="col" class="px-6 py-3">Name</th>
+                <th scope="col" class="px-6 py-3">Color</th>
+                <th scope="col" class="px-6 py-3"></th>
+            </tr>
+            </thead>
+            <tbody>
+            {% for rarity in rarities %}
+                <tr class="odd:bg-white odd:dark:bg-gray-900 even:bg-gray-50 even:dark:bg-gray-800 border-b dark:border-gray-700">
+                    <td class="px-6 py-4 font-medium text-gray-500 whitespace-nowrap dark:text-white">
+                        {{ rarity.name }}
+                    </td>
+                    <td class="px-6 py-4">
+                        <span class="inline-block px-2 py-1 rounded text-gray-900" style="background-color: {{ rarity.color }};">
+                            {{ rarity.color }}
+                        </span>
+                    </td>
+                    <td class="px-6 py-4">
+                        <a href="{{ path('rarity_edit', {'id': rarity.id}) }}" class="btnUpdate text-white">Edit</a>
+                    </td>
+                </tr>
+            {% else %}
+                <tr>
+                    <td colspan="3" class="px-6 py-4 text-center">No records found</td>
+                </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div class="text-center my-6">
+        <a href="{{ path('rarity_new') }}" class="btn text-white">Create new</a>
+    </div>
+
+</div>
 {% endblock %}

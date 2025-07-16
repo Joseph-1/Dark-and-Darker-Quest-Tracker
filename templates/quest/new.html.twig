@@ -49,8 +49,13 @@
 
                 // crée un <li> et ajoute le contenu
                 let newLi = document.createElement('li');
-                newLi.innerHTML = newForm + '<div class="btnDel"><button type="button" class="remove-item">Supprimer</button></div>';
+                newLi.innerHTML = newForm + '' +
+                    '<div class="btnDel mb-6">' +
+                        '<button type="button" class="remove-item">Delete Item</button>' +
+                    '</div>' +
+                '<hr class="border-t border-gray-400 my-4">';
                 collectionHolder.appendChild(newLi);
+
 
                 // ajoute événement suppression sur ce bouton
                 newLi.querySelector('.remove-item').addEventListener('click', (e) => {
@@ -68,7 +73,7 @@
     </script>
 
     <div class="btn mb-5">
-        <a href="{{ path('quest_index') }}">back to list</a>
+        <a href="{{ path('quest_index') }}">Back to list</a>
     </div>
 </div>
 {% endblock %}

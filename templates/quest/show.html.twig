@@ -3,40 +3,31 @@
 {% block title %}Quest{% endblock %}
 
 {% block body %}
-    <h1>Quest</h1>
+<div class="flex flex-col items-center justify-between bg-[#1E1E1E] mt-10 mx-70 rounded-xl shadow-2xl min-h-60 min-w-120">
+    <h1 class="my-4">Quest "{{ quest.name }}" :</h1>
 
-    <table class="table">
-        <tbody>
-            <tr>
-                <th>Id</th>
-                <td>{{ quest.id }}</td>
-            </tr>
-            <tr>
-                <th>Name</th>
-                <td>{{ quest.name }}</td>
-            </tr>
-            <tr>
-                <th>Map</th>
-                <td>{{ quest.map }}</td>
-            </tr>
-            <tr>
-                <th>Objective</th>
-                <td>{{ quest.objective }}</td>
-            </tr>
-            <tr>
-                <th>Status</th>
-                <td>{{ quest.status }}</td>
-            </tr>
-            <tr>
-                <th>Slug</th>
-                <td>{{ quest.slug }}</td>
-            </tr>
-        </tbody>
-    </table>
 
-    <a href="{{ path('quest_index') }}">back to list</a>
+    <div class="my-4">
+        <p class="text-white">Objective :</p>
+        <div class="">
+            <p>{{ quest.objective|nl2br|highlight_rarity }}</p>
+            <p class="text-white my-2">Map :</p>
+            <span class="px-2 py-1 rounded {{ quest.mapColorClass }}">{{ quest.map }}</span>
+        </div>
+    </div>
 
-    <a href="{{ path('quest_edit', {slug: quest.slug}) }}">edit</a>
+    <a href="{{ path('quest_index') }}" class="btn text-white mb-2">Back to list</a>
 
-    {{ include('quest/_delete_form.html.twig') }}
+    {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
+        <details class="my-4">
+            <summary class="cursor-pointer font-semibold text-blue-500">Show options</summary>
+
+            <div class="mt-4 flex flex-col items-center gap-2">
+                <a href="{{ path('quest_edit', {slug: quest.slug}) }}" class="btnUpdate text-white">Edit</a>
+                {{ include('quest/_delete_form.html.twig') }}
+            </div>
+        </details>
+    {% endif %}
+
+</div>
 {% endblock %}
