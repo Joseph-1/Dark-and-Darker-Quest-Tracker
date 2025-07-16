@@ -5,6 +5,7 @@
 {% block body %}
     <div class="flex items-center justify-center bg-[#1E1E1E] mt-20 mx-70 rounded-xl shadow-2xl h-120">
         <form method="post">
+            <h1 class="mb-8">Sign In :</h1>
             {% if error %}
                 <div class="alert alert-danger">{{ error.messageKey|trans(error.messageData, 'security') }}</div>
             {% endif %}
