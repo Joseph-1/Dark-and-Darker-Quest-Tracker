@@ -13,6 +13,20 @@ input, select, textarea {
     @apply bg-[#343434] text-white rounded-md pl-2 py-1 mt-2;
 }
 
+/* Css for HighlightRarityExtension */
+
+.rarity-any { color: #B9B9B9; font-weight: bold; }
+.rarity-poor { color: #616161; font-weight: bold; }
+.rarity-uncommon { color: #529c0c; font-weight: bold; }
+.rarity-rare     { color: #4897cc; font-weight: bold; }
+.rarity-epic     { color: #ad5aff; font-weight: bold; }
+.rarity-legendary { color: #ef9d2c; font-weight: bold; }
+.rarity-unique { color: #e3d88c; font-weight: bold; }
+.rarity-artifact { color: #eb1d1d; font-weight: bold; }
+
+
+/* h */
+
 h1 {
     @apply text-[#d29131] font-bold text-2xl;
 }
@@ -22,6 +36,7 @@ h2, h3 {
 }
 
 
+/* Buttons */
 
 @layer components {
     .btn {
