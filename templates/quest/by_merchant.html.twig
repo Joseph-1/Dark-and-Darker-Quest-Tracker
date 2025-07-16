@@ -16,13 +16,13 @@
         {% else %}
             <ul class="space-y-2">
                 {% for quest in quests %}
-                    <li class="bg-gray-800 text-white p-4 rounded-md">
+                    <li class="bg-gray-800 text-white p-4 rounded-md font-bold">
                             {{ quest.name }} –
                         <span class="px-2 py-1 rounded {{ quest.mapColorClass }}">
                             {{ quest.map }}
                         </span>
-                        <div class="mt-4">
-                            <a href="{{ path('quest_show', {slug: quest.slug}) }}" class="btnShow">
+                        <div class="mt-6">
+                            <a href="{{ path('quest_show', {slug: quest.slug}) }}" class="btnAdmin">
                                 Show Quest
                             </a>
                         </div>
