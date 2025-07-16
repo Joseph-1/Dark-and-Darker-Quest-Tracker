@@ -3,5 +3,28 @@
 {% block title %}Hello HomeController!{% endblock %}
 
 {% block body %}
+    <div class="flex flex-col items-center justify-center">
+        <div class="w-full max-w-5xl my-10 rounded-lg bg-[#555555] p-6 text-surface shadow-2xl">
+            <h2 class="mb-8 text-3xl font-semibold">Welcome to Dark and Darker Quest Tracker</h2>
+            <p class="text-[#FFFFFF]">
+                A tool built by Dark and Darker players, for Dark and Darker players.
+            </p>
+            <hr class="my-6 h-0.5 border-t-0 bg-neutral-400" />
+            <p class="mb-8 text-[#FFFFFF]">
+                To begin inventory your Quest Items, please Sign Up.
+            </p>
+            <a href="{{ path('app_login') }}" class="btnAdmin text-white shadow-2xl">Sign Up</a>
+        </div>
+
+        <div class="w-full max-w-5xl my-10 rounded-lg bg-[#555555] p-6 text-surface shadow-2xl">
+            <h2 class="mb-8 text-3xl font-semibold">Recent patch notes :</h2>
+            <hr class="my-6 h-0.5 border-t-0 bg-neutral-400" />
+            <p class="mb-8 text-[#FFFFFF]">
+                Quests are up to date with last patch.
+            </p>
+        </div>
+    </div>
+
+
 
 {% endblock %}
