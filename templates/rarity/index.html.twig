@@ -10,6 +10,7 @@
             <tr>
                 <th>Id</th>
                 <th>Name</th>
+                <th>Color</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -18,6 +19,7 @@
             <tr>
                 <td>{{ rarity.id }}</td>
                 <td>{{ rarity.name }}</td>
+                <td>{{ rarity.color }}</td>
                 <td>
                     <a href="{{ path('rarity_show', {'id': rarity.id}) }}">show</a>
                     <a href="{{ path('rarity_edit', {'id': rarity.id}) }}">edit</a>
