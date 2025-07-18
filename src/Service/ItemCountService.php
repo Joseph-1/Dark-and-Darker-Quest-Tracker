@@ -64,7 +64,7 @@ class ItemCountService
             }
         }
 
-        // Increment value if she already exist
+        // Increment value if she already exists
         else {
             if ($userItemQuestCount->getCount() < $requiredCount) {
                 // Retrieve the value and we edit it by incrementing it
@@ -101,7 +101,7 @@ class ItemCountService
             $this->em->flush();
         }
 
-        // Decrement the value if she already exist
+        // Decrement the value if she already exists
         else {
             if ($userItemQuestCount->getCount() > 0) {
                 $userItemQuestCount->setCount($userItemQuestCount->getCount() - 1);
