@@ -55,6 +55,7 @@
                 </td>
                 <td class="py-4 text-center align-middle w-64">
                     {% for questItem in quest.questItems %}
+                        {{ dump(questItem) }}
                         {% set item = questItem.item %}
                         {% set key = quest.id ~ '_' ~ item.id %}
                         {% set count = counts[key] is defined and counts[key] ? counts[key].count : 0 %}
