@@ -20,7 +20,7 @@ class DebugController extends AbstractController
 
         $itemCountTotalService->totalCount($questItemRepository);
 
-        return new Response('Debug terminé');
+        return new Response('Debug end');
     }
 }
 
