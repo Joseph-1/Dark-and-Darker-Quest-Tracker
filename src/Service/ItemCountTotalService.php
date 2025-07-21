@@ -8,29 +8,36 @@ use App\Repository\QuestItemRepository;
 
 class ItemCountTotalService
 {
-
     public function totalCount(
         QuestItemRepository $questItemRepository,
     )
     {
-        // on récupère tout les Items de Quêtes
-        $questItem = $questItemRepository->findAll();
+        // Retrieve all Items Quest
+        $questItems = $questItemRepository->findAll();
 
-        foreach ($questItem as $questItem) {
-            dd($questItem);
-            // on récupère leur id
+        // Table to store totalItemCount for each itemId
+        $totalItemCounts = [];
+
+        foreach ($questItems as $questItem) {
+            // Retrieve itemId
             $itemId = $questItem->getItem()->getId();
-            // on récupère leur requiredCount
+            // Retrieve requiredCount
             $requiredCount = $questItem->getRequiredCount();
 
-            if () {
-
+            // If already exist, we summing them
+            if (array_key_exists($itemId, $totalItemCounts)) {
+                $totalItemCounts[$itemId] += $requiredCount;
+            } else {
+                // Else, we add we add it with his initial count
+                $totalItemCounts[$itemId] = $requiredCount;
             }
         }
-        // Récupérer les requiredCount
-        $requiredCount = $questItem->getRequiredCount();
-        // Additionner les requiredCount
+        /*
+        dd($totalItemCounts);
+         *
+         */
 
-        return $totalItemcount;
+        return $totalItemCounts; // à utiliser plus tard
     }
+
 }
