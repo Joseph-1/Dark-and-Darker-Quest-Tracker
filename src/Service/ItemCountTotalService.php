@@ -28,16 +28,12 @@ class ItemCountTotalService
             if (array_key_exists($itemId, $totalItemCounts)) {
                 $totalItemCounts[$itemId] += $requiredCount;
             } else {
-                // Else, we add we add it with his initial count
+                // Else, we add it with his initial count
                 $totalItemCounts[$itemId] = $requiredCount;
             }
         }
-        /*
-        dd($totalItemCounts);
-         *
-         */
 
-        return $totalItemCounts; // à utiliser plus tard
+        return $totalItemCounts;
     }
 
 }
