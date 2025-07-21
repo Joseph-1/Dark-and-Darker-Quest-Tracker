@@ -8,6 +8,7 @@ use App\Repository\ItemRepository;
 use App\Repository\QuestItemRepository;
 use App\Repository\QuestRepository;
 use App\Service\ItemCountService;
+use App\Service\ItemCountTotalService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Bundle\SecurityBundle\Security;
@@ -20,13 +21,21 @@ use Symfony\Component\String\Slugger\SluggerInterface;
 final class ItemController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(ItemRepository $itemRepository, Request $request): Response
+    public function index(
+        ItemRepository $itemRepository,
+        Request $request,
+        ItemCountTotalService $itemCountTotalService,
+        QuestItemRepository $questItemRepository,
+    ): Response
     {
         $page = $request->query->getInt('page', 1);
         $items = $itemRepository->paginateItems($page);
 
+        $itemTotals = $itemCountTotalService->totalCount($questItemRepository);
+
         return $this->render('item/index.html.twig', [
             'items' => $items,
+            'itemTotals' => $itemTotals,
         ]);
     }
 

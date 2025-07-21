@@ -19,6 +19,9 @@
                 <th scope="col" class="px-6 py-3">
                     Rarity
                 </th>
+                <th scope="col" class="px-6 py-3">
+                    Tt. Needed
+                </th>
                 {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
                     <th scope="col" class="px-6 py-3">
                         Actions
@@ -37,6 +40,9 @@
                 </td>
                 <td class="px-6 py-4">
                     {{ item.rarity.name }}
+                </td>
+                <td class="px-6 py-4">
+                    {{ itemTotals[item.id] ?? 0 }}
                 </td>
                 {% if is_granted('ROLE_CONTRIBUTOR') and is_granted("IS_AUTHENTICATED_FULLY") %}
                     <td class="px-6 py-4">
